@@ -1,109 +1,250 @@
-@extends('plantillas.general')
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="wizard/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="wizard/img/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Crear Licencia</title>
 
-@section('styles')
-    {{Html::Style('css/style.css')}}
-@endsection
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
 
-@section('contenido')
-    <form method="POST" action="">
-        <div class="container">
-            <div id="app">
-                <step-navigation :steps="steps" :currentstep="currentstep">
-                </step-navigation>
+    <!--     Fonts and icons     -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="wizard/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="wizard/css/gsdk-bootstrap-wizard.css" rel="stylesheet" />
+</head>
+<body>
+<div >
+    <!--   Big container   -->
+    <div class="container">
+        <div class="row">
+            <div >
+                <!--      Wizard container        -->
+                <div class="wizard-container">
+                    <div class="card wizard-card" data-color="azzure" id="wizard">
+                        <form action="" method="">
+                            <!--        You can switch ' data-color="azzure" '  with one of the next bright colors: "blue", "green", "orange", "red"          -->
 
-                <div v-show="currentstep == 1">
-                    <h1>1. Datos de la Licencia</h1>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Número de licencia:</label>
-                        <div class="col-sm-7">
-                        {{Form::text('numero_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
-                        </div>
+                            <div class="wizard-header">
+                                <h3>
+                                    <b>Crear Licencia</b> <br>
+                                    <small>Ingrese los datos que se solicitan:</small>
+                                </h3>
+                            </div>
+                            <div class="wizard-navigation">
+                                <ul>
+                                    <li><a href="#paso1" data-toggle="tab">1. Datos de la licencia</a></li>
+                                    <li><a href="#paso2" data-toggle="tab">2. Solicitante</a></li>
+                                    <li><a href="#paso3" data-toggle="tab">3. Predio</a></li>
+                                    <li><a href="#paso4" data-toggle="tab">4. Características</a></li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="paso1">
+                                    <div class="row">
+                                       <!-- <div class="col-sm-12">
+                                            <h4 class="info-text"></h4>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Número de licencia:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('numero_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de radicación</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'fradicacion'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de de expedición</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'fexpedicion'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de ejecutoria</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'fejecutoria'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de vencimiento</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fvence', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fvence'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Estado</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cod_estado'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Antecedentes</label>
+                                            <div class="col-sm-7">
+                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="paso2">
+                                    <div class="row">
+                                        <!-- <div class="col-sm-12">
+                                             <h4 class="info-text"></h4>
+                                         </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Documento:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('documento', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'documento'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Nombres:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('nombres', null ,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'nombres'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Apellidos:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('apellidos', null ,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'apellidos'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Tipo de persona</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_tipo_persona', $tipospersona,null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'cod_tipo_persona'])}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="paso3">
+                                    <div class="row">
+                                        <!-- <div class="col-sm-12">
+                                             <h4 class="info-text"></h4>
+                                         </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Dirección:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('direccion', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'direccion'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Barrio:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('barrio', null ,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Manzana:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('manzana', null ,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'manzana'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Lote:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('lote', null ,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'lote'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Estrato:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::number('estrato', null ,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'estrato','min'=>'0','max'=>'6'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Cédula Catastral:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('cedula_catastral', null ,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cedula_catastral'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="paso4">
+                                    <div class="row">
+                                        <!-- <div class="col-sm-12">
+                                             <h4 class="info-text"></h4>
+                                         </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Descripción del proyecto:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('des_proyecto', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Tipo de Licencia</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_tipo_licencia', $tiposlicencia,null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'cod_tipo_licencia'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Modalidad</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Objeto</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_objeto', $objetos,null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'cod_objeto'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Tipo de uso</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_tipo_uso', $tiposuso,null,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'cod_tipo_uso'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Número de pisos</label>
+                                            <div class="col-sm-7">
+                                                {{Form::number('num_pisos', null ,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'num_pisos','min'=>'1'])}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="wizard-footer">
+                                <div class="pull-right">
+                                    <input type='button' class='btn btn-next btn-fill btn-info btn-wd btn-sm' name='next' value='Siguiente' />
+                                    <input type='button' class='btn btn-finish btn-fill btn-info btn-wd btn-sm' name='finish' value='Guardar' />
+                                </div>
+                                <div class="pull-left">
+                                    <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Anterior' />
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Fecha de radicación</label>
-                        <div class="col-sm-7">
-                            {{Form::date('name', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_contrato'])}}
-                        </div>
-                    </div>
-
-
-                </div>
-<!--
-                <div v-show="currentstep == 2">
-                    <h1>2. Datos del solicitante</h1>
-                    <div class="form-group">
-                        <label for="select">Example select</label>
-                        <select class="form-control" name="select">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div v-show="currentstep == 3">
-                    <h1>Información del Predio</h1>
-                    <div class="form-group">
-                        <label for="textarea">Example textarea</label>
-                        <textarea class="form-control" name="textarea" rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">File input</label>
-                        <input type="file" class="form-control-file" name="file" aria-describedby="fileHelp">
-                        <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-                    </div>
-                </div>
-
-                <div v-show="currentstep == 4">
-                    <h1>Características de la Licencia</h1>
-                    <div class="form-group">
-                        <label for="textarea">Example textarea</label>
-                        <textarea class="form-control" name="textarea" rows="4"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">File input</label>
-                        <input type="file" class="form-control-file" name="file" aria-describedby="fileHelp">
-                        <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-                    </div>
-                </div> -->
-
-                <step v-for="step in steps" :currentstep="currentstep" :key="step.id" :step="step" :stepcount="steps.length" @step-change="stepChanged">
-                </step>
-
-                <script type="x-template" id="step-navigation-template">
-                    <ol class="step-indicator">
-                        <li v-for="step in steps" is="step-navigation-step" :key="step.id" :step="step" :currentstep="currentstep">
-                        </li>
-                    </ol>
-                </script>
-
-                <script type="x-template" id="step-navigation-step-template">
-                    <li :class="indicatorclass">
-                        <div class="step"><i :class="step.icon_class"></i></div>
-                        <div class="caption hidden-xs hidden-sm">Step <span v-text="step.id"></span>: <span v-text="step.title"></span></div>
-                    </li>
-                </script>
-
-                <script type="x-template" id="step-template">
-                    <div class="step-wrapper" :class="stepWrapperClass">
-                        <button type="button" class="btn btn-primary" @click="lastStep" :disabled="firststep">
-                            Back
-                        </button>
-                        <button type="button" class="btn btn-primary" @click="nextStep" :disabled="laststep">
-                            Next
-                        </button>
-                        <button type="submit" class="btn btn-primary" v-if="laststep">
-                            Submit
-                        </button>
-                    </div>
-                </script>
+                </div> <!-- wizard container -->
             </div>
-        </div>
-    </form>
-@endsection
+        </div> <!-- row -->
+    </div> <!--  big container -->
 
-@section('scripts')
+    <div class="footer">
+        <br>
+    </div>
 
-@endsection
+
+</div>
+
+</body>
+
+<!--   Core JS Files   -->
+<script src="wizard/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+<script src="wizard/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="wizard/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+
+<!--  Plugin for the Wizard -->
+<script src="wizard/js/gsdk-bootstrap-wizard.js"></script>
+
+<!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+<script src="wizard/js/jquery.validate.min.js"></script>
+
+</html>
