@@ -226,7 +226,7 @@ File: Main file css
   bottom: 0;
   left: 0;
   padding: 14px 20px;
-  position: absolute;
+  /*position: absolute;*/
   right: 0; }
 
 @media (max-width: 420px) {
@@ -538,8 +538,10 @@ File: Main file css
       float: left; }
 
   #navigation {
-    position: absolute;
-    top: 70px;
+    /*position: absolute;*/
+    position: fixed;
+    /*top: 70px;*/
+    top: 0;
     left: 0;
     width: 100%;
     display: none;

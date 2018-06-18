@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class LicenciasController extends Controller
 {
@@ -15,6 +16,10 @@ class LicenciasController extends Controller
     }
     public function frameCrearLicencia()
     {
-        return view('licencias.crearlicencia');
+        /*$users = DB::table('estado_licencia')->get();
+
+        return view('user.index', ['users' => $users]);*/
+        $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
+        return view('licencias.crearlicencia', compact(['estados']));
     }
 }

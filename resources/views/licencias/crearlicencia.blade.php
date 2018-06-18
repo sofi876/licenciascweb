@@ -31,7 +31,7 @@
                             <div class="wizard-header">
                                 <h3>
                                     <b>Crear Licencia</b> <br>
-                                    <small>Ingrese los datos que se indican:</small>
+                                    <small>Ingrese los datos que se solicitan:</small>
                                 </h3>
                             </div>
                             <div class="wizard-navigation">
@@ -39,14 +39,15 @@
                                     <li><a href="#paso1" data-toggle="tab">1. Datos de la licencia</a></li>
                                     <li><a href="#paso2" data-toggle="tab">2. Solicitante</a></li>
                                     <li><a href="#paso3" data-toggle="tab">3. Predio</a></li>
+                                    <li><a href="#paso4" data-toggle="tab">4. Características</a></li>
                                 </ul>
                             </div>
                             <div class="tab-content">
                                 <div class="tab-pane" id="paso1">
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            <h4 class="info-text"> Let's start with the basic details</h4>
-                                        </div>
+                                       <!-- <div class="col-sm-12">
+                                            <h4 class="info-text"></h4>
+                                        </div>-->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Número de licencia:</label>
                                             <div class="col-sm-7">
@@ -56,46 +57,34 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de radicación</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('name', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_contrato'])}}
+                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fradicacion'])}}
                                             </div>
                                         </div>
-                                        <div class="col-sm-5 col-sm-offset-1">
-                                            <div class="form-group">
-                                                <label>What city is your boat in?</label>
-                                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Where is your boat located?">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de de expedición</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fexpedicion'])}}
                                             </div>
                                         </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label>Boat Type</label>
-                                                <select class="form-control">
-                                                    <option disabled="" selected="">- boat type -</option>
-                                                    <option>Power</option>
-                                                    <option>Sail</option>
-                                                    <option>Paddle</option>
-                                                </select>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de ejecutoria</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fejecutoria'])}}
                                             </div>
                                         </div>
-                                        <div class="col-sm-5 col-sm-offset-1">
-                                            <div class="form-group">
-                                                <label>Year Manufacture</label>
-                                                <select class="form-control">
-                                                    <option disabled="" selected="">- year -</option>
-
-                                                    <option>2013</option>
-                                                    <option>2014</option>
-                                                </select>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de vencimiento</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fvencimiento', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fvencimiento'])}}
                                             </div>
                                         </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label>Daily Price</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control">
-                                                    <span class="input-group-addon">$</span>
-                                                </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Estado</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'estado'])}}
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="paso2">
