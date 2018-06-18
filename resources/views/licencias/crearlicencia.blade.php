@@ -57,75 +57,166 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de radicación</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fradicacion'])}}
+                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'fradicacion'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de de expedición</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fexpedicion'])}}
+                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'fexpedicion'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de ejecutoria</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fejecutoria'])}}
+                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'fejecutoria'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de vencimiento</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fvencimiento', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'fvencimiento'])}}
+                                                {{Form::date('fvence', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fvence'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Estado</label>
                                             <div class="col-sm-7">
-                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'estado'])}}
+                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cod_estado'])}}
                                             </div>
                                         </div>
-                                        
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Antecedentes</label>
+                                            <div class="col-sm-7">
+                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="paso2">
-                                    <h4 class="info-text">Do you include a captain? </h4>
                                     <div class="row">
-                                        <div class="col-sm-10 col-sm-offset-1">
-                                            <div class="col-sm-4 col-sm-offset-2">
-                                                <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Renters you approve will be able to take this boat">
-                                                    <input type="radio" name="job" value="Design">
-                                                    <div class="icon">
-                                                        <i class="fa fa-life-ring"></i>
-                                                    </div>
-                                                    <h6>No Captain</h6>
-                                                </div>
+                                        <!-- <div class="col-sm-12">
+                                             <h4 class="info-text"></h4>
+                                         </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Documento:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('documento', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'documento'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this option if you or a certified captain will be included.">
-                                                    <input type="radio" name="job" value="Code">
-                                                    <div class="icon">
-                                                        <i class="fa fa-male"></i>
-                                                    </div>
-                                                    <h6>Includes Captain</h6>
-                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Nombres:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('nombres', null ,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'nombres'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Apellidos:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('apellidos', null ,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'apellidos'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Tipo de persona</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_tipo_persona', $tipospersona,null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'cod_tipo_persona'])}}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="paso3">
+                                <div class="tab-pane" id="paso4">
                                     <div class="row">
-                                        <h4 class="info-text"> Drop us a small description </h4>
-                                        <div class="col-sm-6 col-sm-offset-1">
-                                            <div class="form-group">
-                                                <label>Boat description</label>
-                                                <textarea class="form-control" placeholder="" rows="9">
-                                            </textarea>
+                                        <!-- <div class="col-sm-12">
+                                             <h4 class="info-text"></h4>
+                                         </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Número de licencia:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('numero_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label>Example</label>
-                                                <p class="description">"The boat really nice name is recognized as being a really awesome boat. We use it every sunday when we go fishing and we catch a lot. It has some kind of magic shield around it."</p>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de radicación</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'fradicacion'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de de expedición</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'fexpedicion'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de ejecutoria</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'fejecutoria'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de vencimiento</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fvence', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fvence'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Estado</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'estado'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Estado</label>
+                                            <div class="col-sm-7">
+                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="paso1">
+                                    <div class="row">
+                                        <!-- <div class="col-sm-12">
+                                             <h4 class="info-text"></h4>
+                                         </div>-->
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Número de licencia:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('numero_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de radicación</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'fradicacion'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de de expedición</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'fexpedicion'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de ejecutoria</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'fejecutoria'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Fecha de vencimiento</label>
+                                            <div class="col-sm-7">
+                                                {{Form::date('fvence', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fvence'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Estado</label>
+                                            <div class="col-sm-7">
+                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'estado'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Estado</label>
+                                            <div class="col-sm-7">
+                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'antecedentes'])}}
                                             </div>
                                         </div>
                                     </div>

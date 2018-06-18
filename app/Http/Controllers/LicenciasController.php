@@ -20,6 +20,7 @@ class LicenciasController extends Controller
 
         return view('user.index', ['users' => $users]);*/
         $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
-        return view('licencias.crearlicencia', compact(['estados']));
+        $tipospersona = DB::table('tipo_persona')->pluck('des_persona', 'cod_tipo_persona');
+        return view('licencias.crearlicencia', compact(['estados','tipospersona']));
     }
 }
