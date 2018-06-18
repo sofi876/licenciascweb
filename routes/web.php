@@ -26,6 +26,7 @@ Route::get('/welcome', 'HomeController@inicio')->name('welcome');
 
 /* INICIA CREACION LICENCIAS */
 route::get('crearlicencia', 'LicenciasController@viewCrearLicencia')->name('crearlicencia');
+route::get('framecrearlicencia', 'LicenciasController@frameCrearLicencia')->name('framecrearlicencia');
 /*route::post('bono.crearindividual', 'TarjetasBonoController@CrearTarjetaIndividual')->name('bono.crearindividual');
 route::get('autoCompleNumContrato', 'TarjetasBonoController@autoCompleNumContrato')->name('autoCompleNumContrato');
 route::get('getNombre', 'TarjetasBonoController@getNombre')->name('getNombre');
