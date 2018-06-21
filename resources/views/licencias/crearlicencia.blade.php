@@ -5,6 +5,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="wizard/img/apple-icon.png">
     <link rel="icon" type="image/png" href="wizard/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Crear Licencia</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -15,6 +16,13 @@
     <!-- CSS Files -->
     <link href="wizard/css/bootstrap.min.css" rel="stylesheet" />
     <link href="wizard/css/gsdk-bootstrap-wizard.css" rel="stylesheet" />
+    {!!Html::style('plugins/sweet-alert2/animate.css')!!}
+
+    <link href="{{asset('plugins/sweet-alert2/sweetalert2.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('plugins/switchery/switchery.min.css')}}">
+
+
 </head>
 <body>
 <div >
@@ -25,7 +33,8 @@
                 <!--      Wizard container        -->
                 <div class="wizard-container">
                     <div class="card wizard-card" data-color="azzure" id="wizard">
-                        <form action="" method="">
+                        {{Form::open(['route'=>['funcioncrearlicencia'], 'class'=>'form-horizontal', 'id'=>'crearlicencia'])}} <!-- -->
+                        <!--<form action="" method=""> -->
                             <!--        You can switch ' data-color="azzure" '  with one of the next bright colors: "blue", "green", "orange", "red"          -->
 
                             <div class="wizard-header">
@@ -51,7 +60,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Número de licencia:</label>
                                             <div class="col-sm-7">
-                                            {{Form::text('numero_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'numero_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            {{Form::text('num_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'num_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -137,7 +146,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Barrio:</label>
                                             <div class="col-sm-7">
-                                            {{Form::text('barrio', null ,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            {{Form::text('barrio', null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -213,14 +222,15 @@
                             <div class="wizard-footer">
                                 <div class="pull-right">
                                     <input type='button' class='btn btn-next btn-fill btn-info btn-wd btn-sm' name='next' value='Siguiente' />
-                                    <input type='button' class='btn btn-finish btn-fill btn-info btn-wd btn-sm' name='finish' value='Guardar' />
+                                    <input type='submit' class='btn btn-finish btn-fill btn-info btn-wd btn-sm' name='finish' value='Guardar' />
                                 </div>
                                 <div class="pull-left">
                                     <input type='button' class='btn btn-previous btn-fill btn-default btn-wd btn-sm' name='previous' value='Anterior' />
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                        </form>
+
+                            {{Form::close()}}
                     </div>
                 </div> <!-- wizard container -->
             </div>
@@ -240,11 +250,61 @@
 <script src="wizard/js/jquery-2.2.4.min.js" type="text/javascript"></script>
 <script src="wizard/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="wizard/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+<script src="{{asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
+
+<script src="{{asset('plugins/select2/js/select2.min.js')}}" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
+
 
 <!--  Plugin for the Wizard -->
 <script src="wizard/js/gsdk-bootstrap-wizard.js"></script>
 
 <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
 <script src="wizard/js/jquery.validate.min.js"></script>
+<script>
+    $(function () {
+        $("#crearlicencia").submit(function (e) {
+            e.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: "POST",
+                context: document.body,
+                url: '{{route("funcioncrearlicencia")}}',
+                data: form.serialize(),
+                /*beforeSend: function () {
+                    cargando();
+                },*/
+                success: function (result) {
+                    //alert(result.mensaje);
+                    if (result.estado) {
+                        swal(
+                            {
+                                title: 'Bien!!',
+                                text: result.mensaje,
+                                type: 'success',
+                                confirmButtonColor: '#4fa7f3'
+                            }
+                        ).then(function(){
+                            location.reload();
+                        });
+                    } else {
+                        swal(
+                            'Error!!',
+                            result.mensaje,
+                            'error'
+                        )
+                    }
+                },
+                error: function (xhr, status) {
+                }
+                // código a ejecutar sin importar si la petición falló o no
+                /*complete: function (xhr, status) {
+                    fincarga();
+                }*/
+            });
+        });
+    });
+
+</script>
 
 </html>

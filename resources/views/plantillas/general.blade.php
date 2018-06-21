@@ -16,9 +16,13 @@
 
     <!-- Icons CSS -->
     {{Html::Style('css/icons.css')}}
+    <link href="{{asset('plugins/sweet-alert2/sweetalert2.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('plugins/switchery/switchery.min.css')}}">
 
     <!-- Custom styles for this template -->
     {{Html::Style('css/style.css')}}
+
     @yield("styles")
 </head>
 
@@ -77,6 +81,11 @@
 {{Html::Script("js/jquery-2.1.4.min.js")}}
 {{Html::Script("js/bootstrap.min.js")}}
 {{Html::Script("js/jquery.slimscroll.min.js")}}
+
+<script src="{{asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
+
+<script src="{{asset('plugins/select2/js/select2.min.js')}}" type="text/javascript"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
 
 <!-- App Js -->
 <!-- <script src="js/jquery.app.js"></script> -->
