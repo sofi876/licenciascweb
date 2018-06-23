@@ -238,7 +238,6 @@
     </div> <!--  big container -->
 
     <div class="footer">
-        <br>
     </div>
 
 

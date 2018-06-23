@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\LicenciaConstruccion;
 use App\Solicitante;
+use App\Predio;
+use App\Caracteristicas;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +45,6 @@ class LicenciasController extends Controller
             //seleccionar max id de la licencia, y poner +1
             //$next = (DB::table('licencia_construccion')->max('cod_licencia'))+1;
             $next = (LicenciaConstruccion::max('cod_licencia'))+1;
-            //validar campos
             $licencia = new LicenciaConstruccion();
             $licencia->cod_licencia = $next;
             $licencia->num_licencia = $request->num_licencia;
@@ -54,7 +55,34 @@ class LicenciasController extends Controller
             $licencia->cod_estado = $request->cod_estado;
             $licencia->antecedentes = $request->antecedentes;
             $licencia->save();
-            //insertar los valores
+
+            $solicitante = new Solicitante();
+            $solicitante->cod_licencia = $next;
+            $solicitante->documento = $request->documento;
+            $solicitante->nombres = $request->nombres;
+            $solicitante->apellidos = $request->apellidos;
+            $solicitante->cod_tipo_persona = $request->cod_tipo_persona;
+            $solicitante->save();
+
+            $predio = new Predio();
+            $predio->cod_licencia = $next;
+            $predio->direccion = $request->direccion;
+            $predio->barrio = $request->barrio;
+            $predio->manzana = $request->manzana;
+            $predio->lote = $request->lote;
+            $predio->estrato = $request->estrato;
+            $predio->cedula_catastral = $request->cedula_catastral;
+            $predio->save();
+
+            $caracteristica = new Caracteristicas();
+            $caracteristica->cod_licencia = $next;
+            $caracteristica->des_proyecto = $request->des_proyecto;
+            $caracteristica->cod_tipo_licencia = $request->cod_tipo_licencia;
+            $caracteristica->cod_modalidad = $request->cod_modalidad;
+            $caracteristica->cod_objeto = $request->cod_objeto;
+            $caracteristica->cod_tipo_uso = $request->cod_tipo_uso;
+            $caracteristica->num_pisos = $request->num_pisos;
+            $caracteristica->save();
             /*DB::table('licencia_construccion')->insert(
                 ['cod_licencia' => $next,'num_licencia' => $request->numero_licencia, 'fecha_radicacion' => $request->fradicacion, 'fecha_expedicion' => $request->fexpedicion, 'fecha_ejecutoria' => $request->fejecutoria, 'fecha_vence' => $request->fvence, 'cod_estado' => $request->cod_estado, 'antecedentes' => $request->antecedentes]
             );*/

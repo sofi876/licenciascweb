@@ -21,8 +21,8 @@
 </head>
 <body>
 <!-- HOME -->
-<section>
-    <div class="container">
+<section style="background-image: url(images/fondo_login.jpg)">
+    <div class="container" >
         <div class="row">
             <div class="col-sm-12">
 
