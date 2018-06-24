@@ -23,6 +23,8 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/welcome', 'HomeController@inicio')->name('welcome');
+    Route::get('/CambiarPassword', 'HomeController@viewCambiarPassword')->name('mostrarcambiarpassword');
+    route::post('/CambiarPassword', 'HomeController@funcionCambiarPassword')->name('cambiarPassword');
 //Route::get('/logout', 'LoginController@logout')->name('logout');
 
     /* INICIA CREACION LICENCIAS */

@@ -23,6 +23,8 @@
     <!-- Custom styles for this template -->
     {{Html::Style('css/style.css')}}
 
+    <!-- <link rel="stylesheet" href="{ {asset('css/stylemenu.css')}}"> -->
+
     @yield("styles")
 </head>
 
@@ -30,26 +32,13 @@
 <body>
 
 <div id="page-wrapper">
-
     <!-- Top Bar Start -->
     <div class="topbar" id="topnav">
-
         <!-- Top navbar -->
         <div class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="">
-
-                    <!-- LOGO -->
-                    <div class="topbar-left">
-                        <div class="">
-
-                                <img src="{{url('images/logo_alcaldia2.png')}}" width="90" height="70" alt="logo"  />
-
-
-                        </div>
-                    </div>
                 @include('plantillas.menusuperior')
-
                 </div>
             </div> <!-- end container -->
         </div> <!-- end navbar -->
