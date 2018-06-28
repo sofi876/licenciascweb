@@ -23,6 +23,13 @@
                     <li><a href="#">Consultar</a></li>
                 </ul>
             </li>
+             <li class="has-submenu">
+                 <a href="#"> <span><i class="ti-files"></i></span><span> Usuarios </span> </a>
+                 <ul class="submenu">
+                     <li><a href="{{route('crearUsuario')}}">Crear</a></li>
+                     <li><a href="{{route('consultarUsuarios')}}">Consultar</a></li>
+                 </ul>
+             </li>
         </ul>
 
     </li>
