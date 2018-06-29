@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class usuariosController extends Controller
 {
@@ -11,6 +12,33 @@ class usuariosController extends Controller
     public function verCrearUsuario()
     {
         return view('auth.register');
+    }
+    public function funcionCrearUsuario(Request $request)
+    {
+        $result = [];
+        \DB::beginTransaction();
+        try {
+            $validator = \Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+            $usuario = new User();
+
+            $usuario->name = $request->name;
+            $usuario->email = $request->email;
+            $usuario->password = Hash::make($request->password);
+            $usuario->tipo = $request->tipo;
+            $usuario->notificar = $request->notificar;
+            $usuario->save();
+            \DB::commit();
+            return redirect()->back()->with("success","El usuario ha sido creado !");
+        } catch (\Exception $exception) {
+            return redirect()->back()->with("error","El usuario no pudo ser creado. Intente otro email.");
+
+            \DB::rollBack();
+        }
+        return $result;
     }
     public function consultarUsuarios()
     {

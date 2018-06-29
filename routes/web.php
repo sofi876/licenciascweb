@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*INICIA GESTION DE USUARIOS */
     route::get('/CrearUsuario', 'usuariosController@verCrearUsuario')->name('crearUsuario');
+    route::post('Usuarios/crear', 'usuariosController@funcionCrearUsuario')->name('funcionCrearUsuario');
     Route::get('usuarios/lista', 'usuariosController@consultarUsuarios')->name('consultarUsuarios');
     //Route::get('usuarios/lista', 'usuariosController@gridConsultarUsuarios')->name('gridConsultarUsuarios');
 //Route::get('/logout', 'LoginController@logout')->name('logout');
