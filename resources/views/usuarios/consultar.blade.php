@@ -7,7 +7,7 @@
     <link href="{{asset('plugins/datatables/dataTables.colVis.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('plugins/datatables/dataTables.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('plugins/datatables/fixedColumns.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+
 @endsection
 @section('contenido')
 
@@ -17,38 +17,19 @@
                 <div class="card" >
                     <div class="card-header" align="center"><h2>Lista de Usuarios</h2></div>
                     <h4><a href="{{route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br>
-                    <div class="table-responsive">
-                        @if($usuarios)
-                            <table id="datatable" class="table table-striped table-bordered">
-                            <!-- <table class="table"> -->
+                    <div class="table-responsive m-b-12">
+
+                        <table id="datatable" name="datatable" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
+                                    <td>Id</td>
                                     <td>Nombre</td>
                                     <td>Email</td>
                                     <td>Tipo</td>
                                     <td>Notificar</td>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                @foreach($usuarios as $usuario)
-                                    <tr>
-                                        <td>{{ $usuario->name }}</td>
-                                        <td>{{ $usuario->email }}</td>
-                                        <td>{{ $usuario->tipo }}</td>
-                                        <td>{{ $usuario->notificar }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <td>Nombre</td>
-                                    <td>Email</td>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        @endif
+                        </table>
                     </div>
                 </div>
             </div>
@@ -72,11 +53,58 @@
     <script src="{{asset('plugins/datatables/dataTables.scroller.min.js')}}"></script>
     <script src="{{asset('plugins/datatables/dataTables.colVis.js')}}"></script>
     <script src="{{asset('plugins/datatables/dataTables.fixedColumns.min.js')}}"></script>
-    <script src="{{asset('plugins/jQuery-Mask-Plugin/dist/jquery.mask.min.js')}}"></script>
-    <script src="{{asset('plugins/moment/moment.js')}}"></script>
-    <script src="{{asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-    <script src="{{asset('plugins/bootstrap-datepicker/locale/bootstrap-datepicker.es.min.js')}}" charset="UTF-8"></script>
-<!--
+
+    <script>
+        var table;
+        $(function (){
+            table = $("#datatable").DataTable({
+                procesing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{!!route('gridConsultarUsuarios')!!}",
+                    "type":"get"
+                },
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {
+                        data: 'tipo',
+                        name: 'tipo',
+                        render: function (data) {
+                            if (data == '1') {
+                                return 'Administrador';
+                            }
+                            else if (data == '2') {
+                                return 'Funcionario';
+                            } else {
+                                return 'Error'
+                            }
+                        },
+                        searchable: true
+                    },
+                    {
+                        data: 'notificar',
+                        name: 'notificar',
+                        render: function (data) {
+                            if (data == '0') {
+                                return 'No';
+                            }
+                            else if (data == '1') {
+                                return 'Si';
+                            } else {
+                                return 'Error'
+                            }
+                        },
+                        searchable: true
+                    }
+                    //{data: 'action', name: 'action', orderable: false, searchable: false}
+                ],
+            });
+        });
+    </script>
+
+    <!--
     <script>
         var table;
         $(function () {

@@ -24,13 +24,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/welcome', 'HomeController@inicio')->name('welcome');
     Route::get('/CambiarPassword', 'HomeController@viewCambiarPassword')->name('mostrarcambiarpassword');
-    route::post('/CambiarPassword', 'HomeController@funcionCambiarPassword')->name('cambiarPassword');
+    route::post('/CambiarPasswordf', 'HomeController@funcionCambiarPassword')->name('cambiarPassword');
 
     /*INICIA GESTION DE USUARIOS */
     route::get('/CrearUsuario', 'usuariosController@verCrearUsuario')->name('crearUsuario');
     route::post('Usuarios/crear', 'usuariosController@funcionCrearUsuario')->name('funcionCrearUsuario');
     Route::get('usuarios/lista', 'usuariosController@consultarUsuarios')->name('consultarUsuarios');
-    //Route::get('usuarios/lista', 'usuariosController@gridConsultarUsuarios')->name('gridConsultarUsuarios');
+    Route::get('usuarios/listaf', 'usuariosController@gridConsultarUsuarios')->name('gridConsultarUsuarios');
 //Route::get('/logout', 'LoginController@logout')->name('logout');
     /* FINALIZA GESTIÓN DE USUARIOS*/
 

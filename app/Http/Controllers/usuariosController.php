@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Yajra\DataTables\DataTables;
 
 class usuariosController extends Controller
 {
@@ -47,7 +48,9 @@ class usuariosController extends Controller
     }
     public function gridConsultarUsuarios()
     {
-        $tarjetas = Tarjetas::join('tarjeta_servicios', 'tarjetas.numero_tarjeta', 'tarjeta_servicios.numero_tarjeta')
+        $users = User::select(['id','name','email','tipo','notificar'])->get();
+        return Datatables::of($users)->make(true);
+        /*$tarjetas = Tarjetas::join('tarjeta_servicios', 'tarjetas.numero_tarjeta', 'tarjeta_servicios.numero_tarjeta')
             ->join('detalle_produtos', 'tarjetas.numero_tarjeta', 'detalle_produtos.numero_tarjeta')
             ->where('tarjeta_servicios.servicio_codigo', Tarjetas::$CODIGO_SERVICIO_BONO)
             ->where('detalle_produtos.estado', '<>', TarjetaServicios::$ESTADO_ANULADA)
@@ -73,7 +76,7 @@ class usuariosController extends Controller
                 $acciones .= '</div>';
                 return $acciones;
             })
-            ->make(true);
+            ->make(true);*/
     }
     public function editarUsuario(Request $request)
     {
