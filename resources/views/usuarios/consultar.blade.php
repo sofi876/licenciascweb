@@ -60,6 +60,9 @@
             table = $("#datatable").DataTable({
                 procesing: true,
                 serverSide: true,
+                "language": {
+                    "url": "{!!route('datatable_es')!!}"
+                },
                 ajax: {
                     url: "{!!route('gridConsultarUsuarios')!!}",
                     "type":"get"

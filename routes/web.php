@@ -17,6 +17,7 @@
 Route::get('/', function () {
     return redirect('/login');
 });
+Route::get('datatable_es', 'IdiomaDataTableController@espanol')->name('datatable_es');
 
 Auth::routes();
 
