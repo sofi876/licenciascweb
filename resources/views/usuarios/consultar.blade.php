@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div class="card" >
                     <div class="card-header" align="center"><h2>Lista de Usuarios</h2></div>
-                    <h4><a href="{{route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br>
+                    <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
                     <div class="table-responsive m-b-12">
 
                         <table id="datatable" name="datatable" class="table table-striped table-bordered">
@@ -27,6 +27,7 @@
                                     <td>Email</td>
                                     <td>Tipo</td>
                                     <td>Notificar</td>
+                                    <td>Editar</td>
                                 </tr>
                                 </thead>
                         </table>
@@ -100,8 +101,8 @@
                             }
                         },
                         searchable: true
-                    }
-                    //{data: 'action', name: 'action', orderable: false, searchable: false}
+                    },
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
             });
         });

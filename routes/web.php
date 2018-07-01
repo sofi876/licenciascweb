@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     route::post('Usuarios/crear', 'usuariosController@funcionCrearUsuario')->name('funcionCrearUsuario');
     Route::get('usuarios/lista', 'usuariosController@consultarUsuarios')->name('consultarUsuarios');
     Route::get('usuarios/listaf', 'usuariosController@gridConsultarUsuarios')->name('gridConsultarUsuarios');
+    route::get('/EditarUsuario/{id}', 'usuariosController@verEditarUsuario')->name('editarUsuario');
+    route::post('Usuarios/editar/{id}', 'usuariosController@funcionEditarUsuario')->name('funcionEditarUsuario');
 //Route::get('/logout', 'LoginController@logout')->name('logout');
     /* FINALIZA GESTIÓN DE USUARIOS*/
 
