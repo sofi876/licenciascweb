@@ -15,31 +15,35 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card" >
-                    <div class="card-header" align="center"><h2>Lista de Usuarios</h2></div>
-                    <p><b>Nota:</b> Puede filtrar la búsqueda por el nombre o el email.</p>
+                    <div class="card-header" align="center"><h2>Consultar Licencias</h2></div>
+                    <p><b>Nota:</b> Utilice las celdas inferiores de cada columna para filtrar los resultados.</p>
                     <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
                     <div class="table-responsive m-b-12">
 
                         <table id="datatable" name="datatable" class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Tipo</th>
-                                    <th>Notificar</th>
-                                    <th>Activo</th>
-                                    <th>Editar</th>
-                                </tr>
-                                </thead>
+                            <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Número</th>
+                                <th>Radicación</th>
+                                <th>Expedición</th>
+                                <th>Ejecutoría</th>
+                                <th>Vencimiento</th>
+                                <th>Estado</th>
+                                <th>Antecedentes</th>
+                                <th>Ver/Editar</th>
+                            </tr>
+                            </thead>
                             <tfoot>
                             <tr>
-                                <th>Id</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th>Código</th>
+                                <th>Número</th>
+                                <th>Radicación</th>
+                                <th>Expedición</th>
+                                <th>Ejecutoría</th>
+                                <th>Vencimiento</th>
+                                <th>Estado</th>
+                                <th>Antecedentes</th>
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -78,58 +82,18 @@
                     "url": "{!!route('datatable_es')!!}"
                 },
                 ajax: {
-                    url: "{!!route('gridConsultarUsuarios')!!}",
+                    url: "{!!route('gridConsultarLicencias')!!}",
                     "type":"get"
                 },
                 columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
-                    {
-                        data: 'tipo',
-                        name: 'tipo',
-                        render: function (data) {
-                            if (data == '1') {
-                                return 'Administrador';
-                            }
-                            else if (data == '2') {
-                                return 'Funcionario';
-                            } else {
-                                return 'Error'
-                            }
-                        },
-                        searchable: false
-                    },
-                    {
-                        data: 'notificar',
-                        name: 'notificar',
-                        render: function (data) {
-                            if (data == '0') {
-                                return 'No';
-                            }
-                            else if (data == '1') {
-                                return 'Si';
-                            } else {
-                                return 'Error'
-                            }
-                        },
-                        searchable: false
-                    },
-                    {
-                        data: 'activo',
-                        name: 'activo',
-                        render: function (data) {
-                            if (data == '0') {
-                                return 'No';
-                            }
-                            else if (data == '1') {
-                                return 'Si';
-                            } else {
-                                return 'Error'
-                            }
-                        },
-                        searchable: false
-                    },
+                    {data: 'cod_licencia', name: 'cod_licencia'},
+                    {data: 'num_licencia', name: 'num_licencia'},
+                    {data: 'fecha_radicacion', name: 'fecha_radicacion'},
+                    {data: 'fecha_expedicion', name: 'fecha_expedicion'},
+                    {data: 'fecha_ejecutoria', name: 'fecha_ejecutoria'},
+                    {data: 'fecha_vence', name: 'fecha_vence'},
+                    {data: 'estado', name: 'estado'},
+                    {data: 'antecedentes', name: 'antecedentes'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 initComplete: function () {

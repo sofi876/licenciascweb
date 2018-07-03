@@ -20,7 +20,7 @@
                 <a href="#"> <span><i class="ti-files"></i></span><span> Licencias </span> </a>
                 <ul class="submenu">
                     <li><a href="{{route('crearlicencia')}}">Ingresar</a></li>
-                    <li><a href="#">Consultar</a></li>
+                    <li><a href="{{route('consultarLicencias')}}">Consultar</a></li>
                 </ul>
             </li>
              <li class="has-submenu">

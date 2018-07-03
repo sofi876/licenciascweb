@@ -42,6 +42,11 @@ Route::group(['middleware' => 'auth'], function () {
     route::get('framecrearlicencia', 'LicenciasController@frameCrearLicencia')->name('framecrearlicencia');
     route::post('licencias/crear', 'LicenciasController@funcionCrearLicencia')->name('funcioncrearlicencia');
 
+    Route::get('licencias/lista', 'LicenciasController@verConsultarLicencias')->name('consultarLicencias');
+    Route::get('licencias/listaf', 'LicenciasController@gridConsultarLicencias')->name('gridConsultarLicencias');
+    /*route::get('/EditarLicencia/{id}', 'LicenciasController@verEditarLicencia')->name('editarLicencia');
+    route::post('Licencias/editar/{id}', 'LicenciasController@funcionEditarLicencia')->name('funcionEditarLicencia');*/
+
     /*FINALIZA CREACION LICENCIAS */
 
 });

@@ -31,6 +31,7 @@ class usuariosController extends Controller
             $usuario->password = Hash::make($request->password);
             $usuario->tipo = $request->tipo;
             $usuario->notificar = $request->notificar;
+            $usuario->activo = "1";
             $usuario->save();
             \DB::commit();
             return redirect()->back()->with("success","El usuario ha sido creado !");
@@ -48,7 +49,7 @@ class usuariosController extends Controller
     }
     public function gridConsultarUsuarios()
     {
-        $users = User::select(['id','name','email','tipo','notificar'])->get();
+        $users = User::select(['id','name','email','tipo','notificar','activo'])->get();
         return Datatables::of($users)
             ->addColumn('action', function ($users) {
                 $acciones = "";
@@ -79,6 +80,7 @@ class usuariosController extends Controller
             $usuario->email = $request->email;
             $usuario->tipo = $request->tipo;
             $usuario->notificar = $request->notificar;
+            $usuario->activo = $request->activo;
             $usuario->save();
             \DB::commit();
             return redirect()->back()->with("success","El usuario ha sido actualizado!");

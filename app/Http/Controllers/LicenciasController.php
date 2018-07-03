@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\EstadosLicencia;
 use App\LicenciaConstruccion;
 use App\Solicitante;
 use App\Predio;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class LicenciasController extends Controller
 {
@@ -98,5 +100,28 @@ class LicenciasController extends Controller
         }
         return $result;
 
+    }
+    public function verConsultarLicencias()
+    {
+        $licencias = LicenciaConstruccion::all();
+        return view('licencias.consultarlicencias', compact('licencias'));
+    }
+    public function gridConsultarLicencias()
+    {
+        $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])->get();
+        return Datatables::of($licencias)
+            ->addColumn('estado', function ($licencias) {
+                $estadol = EstadosLicencia::where("cod_estado", $licencias->cod_estado)->first();
+                return $estadol->des_estado_licencia;
+            })
+            ->addColumn('action', function ($licencias) {
+                $acciones = "";
+                $acciones .= '<div class="btn-group">';
+                $acciones .= '<a data-modal href="#" type="button" class="btn btn-custom btn-xs">Ver/Editar</a>';
+                $acciones .= '</div>';
+                return $acciones;
+                //' . route('editarLicencia', $licencias->cod_licencia) . '
+            })
+            ->make(true);
     }
 }

@@ -25,7 +25,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
 
                                 <div class="col-md-6">
-                                    {{Form::text('name', null ,['class'=>'form-control', "id"=>"name", "required"])}}
+                                    {{Form::text('name', null ,['class'=>'form-control', "id"=>"name", "required", "tabindex"=>"1"])}}
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('name') }}</strong>
@@ -38,7 +38,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
 
                                 <div class="col-md-6">
-                                    {{Form::email('email', null ,['class'=>'form-control', "id"=>"email", "required"])}}
+                                    {{Form::email('email', null ,['class'=>'form-control', "id"=>"email", "required", "tabindex"=>"2"])}}
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -50,7 +50,7 @@
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Tipo') }}</label>
                                 <div class="col-md-6">
-                                    {{Form::select('tipo', ['1' => 'Administrador', '2' => 'Funcionario'], null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'tipo','value'=>old('tipo')])}}
+                                    {{Form::select('tipo', ['1' => 'Administrador', '2' => 'Funcionario'], null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'tipo','value'=>old('tipo')])}}
                                 </div>
                             </div>
 
@@ -58,6 +58,13 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Notificar denuncias') }}</label>
                                 <div class="col-md-6">
                                     {{Form::select('notificar', ['0' => 'No', '1' => 'Si'], null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'notificar','value'=>old('tipo')])}}
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Estado') }}</label>
+                                <div class="col-md-6">
+                                    {{Form::select('activo', ['1' => 'Activo', '0' => 'Inactivo'], null,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'activo','value'=>old('activo')])}}
                                 </div>
                             </div>
 
