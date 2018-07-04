@@ -237,10 +237,6 @@
         </div> <!-- row -->
     </div> <!--  big container -->
 
-    <div class="footer">
-    </div>
-
-
 </div>
 
 </body>
