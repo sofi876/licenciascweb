@@ -23,9 +23,7 @@ class LicenciasController extends Controller
     }
     public function frameCrearLicencia()
     {
-        /*$users = DB::table('estado_licencia')->get();
 
-        return view('user.index', ['users' => $users]);*/
         $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
         $tipospersona = DB::table('tipo_persona')->pluck('des_persona', 'cod_tipo_persona');
         $tiposlicencia = DB::table('tipo_licencia')->pluck('des_licencia', 'cod_tipo_licencia');
@@ -117,11 +115,86 @@ class LicenciasController extends Controller
             ->addColumn('action', function ($licencias) {
                 $acciones = "";
                 $acciones .= '<div class="btn-group">';
-                $acciones .= '<a data-modal href="#" type="button" class="btn btn-custom btn-xs">Ver/Editar</a>';
+                $acciones .= '<a data-modal href="' . route('editarlicencia', $licencias->cod_licencia) . '" type="button" class="btn btn-custom btn-xs">Ver</a>';
                 $acciones .= '</div>';
                 return $acciones;
-                //' . route('editarLicencia', $licencias->cod_licencia) . '
+                //
             })
             ->make(true);
+    }
+    public function viewEditarLicencia($id)
+    {
+        $licencia = LicenciaConstruccion::where('cod_licencia',$id)->first();
+        return view('licencias.vieweditarlicencia', compact('licencia'));
+    }
+    public function frameEditarLicencia($id)
+    {
+        $licencia = LicenciaConstruccion::join('informacion_predio', 'licencia_construccion.cod_licencia', 'informacion_predio.cod_licencia')
+            ->join('datos_solicitante', 'licencia_construccion.cod_licencia', 'datos_solicitante.cod_licencia')
+            ->join('caracteristicas_licencia', 'licencia_construccion.cod_licencia', 'caracteristicas_licencia.cod_licencia')
+            ->where('licencia_construccion.cod_licencia',$id)
+            ->select(['licencia_construccion.*', 'datos_solicitante.documento', 'datos_solicitante.nombres', 'datos_solicitante.apellidos', 'datos_solicitante.cod_tipo_persona', 'informacion_predio.direccion', 'informacion_predio.barrio', 'informacion_predio.manzana', 'informacion_predio.lote', 'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion', 'caracteristicas_licencia.des_proyecto', 'caracteristicas_licencia.cod_tipo_licencia', 'caracteristicas_licencia.cod_modalidad', 'caracteristicas_licencia.cod_objeto', 'caracteristicas_licencia.cod_tipo_uso', 'caracteristicas_licencia.num_pisos'])
+            ->first();
+
+        $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
+        $tipospersona = DB::table('tipo_persona')->pluck('des_persona', 'cod_tipo_persona');
+        $tiposlicencia = DB::table('tipo_licencia')->pluck('des_licencia', 'cod_tipo_licencia');
+        $modalidades = DB::table('modalidad')->pluck('des_modalidad', 'cod_modalidad');
+        $objetos = DB::table('objeto_tramite')->pluck('des_objeto', 'cod_objeto');
+        $tiposuso = DB::table('tipo_uso')->pluck('des_uso', 'cod_tipo_uso');
+        return view('licencias.editarlicencia', compact(['licencia','estados','tipospersona','tiposlicencia','modalidades','objetos','tiposuso']));
+    }
+    public function funcionEditarLicencia(Request $request, $id)
+    {
+        $result = [];
+        \DB::beginTransaction();
+        try {
+            $validator = \Validator::make($request->all(), [
+                'num_licencia' => 'required|unique:licencia_construccion|max:11',
+            ]);
+            $licencia = LicenciaConstruccion::where('cod_licencia',$id)->first();
+            $licencia->num_licencia = $request->num_licencia;
+            $licencia->fecha_radicacion = $request->fecha_radicacion;
+            $licencia->fecha_expedicion = $request->fecha_expedicion;
+            $licencia->fecha_ejecutoria = $request->fecha_ejecutoria;
+            $licencia->fecha_vence = $request->fecha_vence;
+            $licencia->cod_estado = $request->cod_estado;
+            $licencia->antecedentes = $request->antecedentes;
+            $licencia->save();
+
+            $solicitante = Solicitante::where('cod_licencia',$licencia->cod_licencia)->first();
+            $solicitante->documento = $request->documento;
+            $solicitante->nombres = $request->nombres;
+            $solicitante->apellidos = $request->apellidos;
+            $solicitante->cod_tipo_persona = $request->cod_tipo_persona;
+            $solicitante->save();
+
+            $predio = Predio::where('cod_licencia',$licencia->cod_licencia)->first();
+            $predio->direccion = $request->direccion;
+            $predio->barrio = $request->barrio;
+            $predio->manzana = $request->manzana;
+            $predio->lote = $request->lote;
+            $predio->estrato = $request->estrato;
+            $predio->cedula_catastral = $request->cedula_catastral;
+            $predio->save();
+
+            $caracteristica = Caracteristicas::where('cod_licencia',$licencia->cod_licencia)->first();
+            $caracteristica->des_proyecto = $request->des_proyecto;
+            $caracteristica->cod_tipo_licencia = $request->cod_tipo_licencia;
+            $caracteristica->cod_modalidad = $request->cod_modalidad;
+            $caracteristica->cod_objeto = $request->cod_objeto;
+            $caracteristica->cod_tipo_uso = $request->cod_tipo_uso;
+            $caracteristica->num_pisos = $request->num_pisos;
+            $caracteristica->save();
+
+            \DB::commit();
+            $result['estado'] = true;
+            $result['mensaje'] = 'La licencia ha sido actualizada satisfactoriamente';
+        } catch (\Exception $exception) {
+            return redirect()->back()->with("error","Los datos de la licencia no pudieron ser actualizados.");
+            \DB::rollBack();
+        }
+        return $result;
+
     }
 }

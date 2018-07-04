@@ -23,7 +23,7 @@
                         <table id="datatable" name="datatable" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Código</th>
+                                <th>Ver / Editar</th>
                                 <th>Número</th>
                                 <th>Radicación</th>
                                 <th>Expedición</th>
@@ -31,12 +31,11 @@
                                 <th>Vencimiento</th>
                                 <th>Estado</th>
                                 <th>Antecedentes</th>
-                                <th>Ver/Editar</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Código</th>
+                                <th></th>
                                 <th>Número</th>
                                 <th>Radicación</th>
                                 <th>Expedición</th>
@@ -44,7 +43,6 @@
                                 <th>Vencimiento</th>
                                 <th>Estado</th>
                                 <th>Antecedentes</th>
-                                <th></th>
                             </tr>
                             </tfoot>
                         </table>
@@ -86,15 +84,14 @@
                     "type":"get"
                 },
                 columns: [
-                    {data: 'cod_licencia', name: 'cod_licencia'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
                     {data: 'num_licencia', name: 'num_licencia'},
                     {data: 'fecha_radicacion', name: 'fecha_radicacion'},
                     {data: 'fecha_expedicion', name: 'fecha_expedicion'},
                     {data: 'fecha_ejecutoria', name: 'fecha_ejecutoria'},
                     {data: 'fecha_vence', name: 'fecha_vence'},
                     {data: 'estado', name: 'estado'},
-                    {data: 'antecedentes', name: 'antecedentes'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                    {data: 'antecedentes', name: 'antecedentes'}
                 ],
                 initComplete: function () {
                     this.api().columns().every(function () {
