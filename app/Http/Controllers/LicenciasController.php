@@ -122,6 +122,85 @@ class LicenciasController extends Controller
             })
             ->make(true);
     }
+    public function verConsultarLicenciasFiltro()
+    {
+       // $licencias = LicenciaConstruccion::all();
+        //return view('licencias.filtrarconsultas', compact('licencias'));
+        $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
+        return view('licencias.filtrarconsultas', compact('estados'));
+    }
+    public function consultarxlicencia(Request $request)
+    {
+
+        $filtro = $request->filtro;
+        if($filtro=="1" || $filtro == "2" || $filtro =="3" || $filtro == "4") {
+
+            if($filtro=="1"){
+                $numlicencia=$request->numlicencia;
+
+                $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
+                    ->where('num_licencia',$numlicencia)
+                    ->get();
+                if(count($licencias)>0){
+                    //dd($licencias);
+                    return view('licencias.parcialconsultarlicencias', compact(['numlicencia', 'filtro']));//
+                }
+                else {
+                    return "<p align='center'>No se encontraron resultados</p>";
+                }
+            }
+            else{
+                if($filtro=="2"){
+                    $tipo_fecha=$request->tipo_fecha;
+                    $fecha1=$request->fecha1;
+                    $fecha2=$request->fecha2;
+                    return view('licencias.parcialconsultarlicencias', compact(['tipo_fecha','filtro','fecha1','fecha2']));
+                }
+                else{
+                    if($filtro=="3"){
+                        $estado=$request->estado;
+                        return view('licencias.parcialconsultarlicencias', compact(['estado','filtro']));
+                    }
+                    else{
+                        if($filtro=="4"){
+                            $cedula=$request->cedula;
+                            return view('licencias.parcialconsultarlicencias', compact(['cedula','filtro']));
+                        }
+                        else {
+                            return "<p align='center'>Error: Seleccione un tipo de búsqueda</p>";
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            return "<p align='center'>Error: Seleccione un tipo de búsqueda</p>";
+        }
+    }
+    public function gridConsultarLicenciasFiltro(Request $request)
+    {
+        //dd($request->filtro);
+        //$licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])->get();
+        $numlicencia=$request->numlicencia;
+
+        $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
+            ->where('num_licencia',$numlicencia)
+            ->get();
+        return Datatables::of($licencias)
+            ->addColumn('estado', function ($licencias) {
+                $estadol = EstadosLicencia::where("cod_estado", $licencias->cod_estado)->first();
+                return $estadol->des_estado_licencia;
+            })
+            ->addColumn('action', function ($licencias) {
+                $acciones = "";
+                $acciones .= '<div class="btn-group">'; //target="_blank"
+                $acciones .= '<a data-modal href="' . route('editarlicencia', $licencias->cod_licencia) . '" target="_blank" type="button" class="btn btn-custom btn-xs">Ver</a>';
+                $acciones .= '</div>';
+                return $acciones;
+                //
+            })
+            ->make(true);
+    }
     public function viewEditarLicencia($id)
     {
         $licencia = LicenciaConstruccion::where('cod_licencia',$id)->first();

@@ -152,13 +152,13 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Manzana:</label>
                                             <div class="col-sm-7">
-                                            {{Form::text('manzana', null ,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'manzana'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            {{Form::text('manzana', null ,['class'=>'form-control', "tabindex"=>"3",'id'=>'manzana'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Lote:</label>
                                             <div class="col-sm-7">
-                                            {{Form::text('lote', null ,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'lote'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            {{Form::text('lote', null ,['class'=>'form-control', "tabindex"=>"4",'id'=>'lote'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
                                         <div class="form-group">

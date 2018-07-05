@@ -43,12 +43,14 @@ Route::group(['middleware' => 'auth'], function () {
     route::post('licencias/crear', 'LicenciasController@funcionCrearLicencia')->name('funcioncrearlicencia');
 
     Route::get('licencias/lista', 'LicenciasController@verConsultarLicencias')->name('consultarLicencias');
+    Route::get('licencias/filtro','LicenciasController@verConsultarLicenciasFiltro')->name('consultarLicenciasFiltro');
+    //Route::post('tarjetas/bono/consultarporempresa','TarjetasBonoController@ConsultaxEmpresa')->name('bono.consultaxempresap');
+    Route::post('licencias/filtroxlicencia','LicenciasController@consultarxlicencia')->name('consultarxLicencia');
     Route::get('licencias/listaf', 'LicenciasController@gridConsultarLicencias')->name('gridConsultarLicencias');
+    Route::post('licencias/listafiltro', 'LicenciasController@gridConsultarLicenciasFiltro')->name('gridConsultarLicenciasFiltro');
 
     route::get('editarlicencia/{id}', 'LicenciasController@viewEditarLicencia')->name('editarlicencia');
     route::get('frameeditarlicencia/{id}', 'LicenciasController@frameEditarLicencia')->name('frameeditarlicencia');
-
-   // route::get('/EditarLicencia/{id}', 'LicenciasController@verEditarLicencia')->name('editarLicencia');
     route::post('Licencias/editar/{id}', 'LicenciasController@funcionEditarLicencia')->name('funcionEditarLicencia');
 
     /*FINALIZA CREACION LICENCIAS */

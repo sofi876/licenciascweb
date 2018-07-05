@@ -1,21 +1,9 @@
-@extends('plantillas.general')
-@section('styles')
-    <link href="{{asset('plugins/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('plugins/datatables/buttons.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('plugins/datatables/responsive.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('plugins/datatables/scroller.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('plugins/datatables/dataTables.colVis.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('plugins/datatables/dataTables.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('plugins/datatables/fixedColumns.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
-@endsection
-@section('contenido')
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card" >
-                    <div class="card-header" align="center"><h2>Consultar Licencias</h2></div>
+                    <div class="row">
+                        <div class="col-sm-12">
                     <p><b>Nota:</b> Utilice las celdas inferiores de cada columna para filtrar los resultados.</p>
+                    el filtro es: {{ $filtro }} y num licencia {{$numlicencia}}
+                        </div>
+                    </div>
                     <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
                     <div class="table-responsive m-b-12">
 
@@ -46,32 +34,14 @@
                             </tfoot>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-@section('scripts')
 
-    <script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/dataTables.bootstrap.js')}}"></script>
-    <script src="{{asset('plugins/datatables/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/buttons.bootstrap.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/jszip.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/pdfmake.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/vfs_fonts.js')}}"></script>
-    <script src="{{asset('plugins/datatables/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/buttons.print.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/dataTables.keyTable.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/responsive.bootstrap.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/dataTables.scroller.min.js')}}"></script>
-    <script src="{{asset('plugins/datatables/dataTables.colVis.js')}}"></script>
-    <script src="{{asset('plugins/datatables/dataTables.fixedColumns.min.js')}}"></script>
+
 
     <script>
-        var table;
         $(function (){
+            var parametros = {
+                filtro: "{{$filtro}}",
+            };
             table = $("#datatable").DataTable({
                 procesing: true,
                 serverSide: true,
@@ -79,8 +49,17 @@
                     "url": "{!!route('datatable_es')!!}"
                 },
                 ajax: {
-                    url: "{!!route('gridConsultarLicencias')!!}",
-                    "type":"get"
+                    url: "{!!route('gridConsultarLicenciasFiltro')!!}",
+                    "type": "POST",
+                    'headers': {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    'data': function (d) {
+                        d.filtro = "{{$filtro}}";
+                        d.numlicencia = "{{$numlicencia}}";
+                    }
+                //"data": {filtro: "1" ,_token: '{{csrf_token()}}', numlicencia: "6666"}
+                    //data: {'filtro': filtro},
                 },
                 columns: [
                     {data: 'action', name: 'action', orderable: false, searchable: false},
@@ -108,5 +87,3 @@
         });
         $.fn.dataTable.ext.errMode = 'throw';
     </script>
-
-@endsection

@@ -21,6 +21,7 @@
                 <ul class="submenu">
                     <li><a href="{{route('crearlicencia')}}">Ingresar</a></li>
                     <li><a href="{{route('consultarLicencias')}}">Consultar</a></li>
+                    <li><a href="{{route('consultarLicenciasFiltro')}}">Consultar por filtro</a></li>
                 </ul>
             </li>
              <li class="has-submenu">
