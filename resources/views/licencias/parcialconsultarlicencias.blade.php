@@ -1,7 +1,6 @@
                     <div class="row">
                         <div class="col-sm-12">
                     <p><b>Nota:</b> Utilice las celdas inferiores de cada columna para filtrar los resultados.</p>
-                    el filtro es: {{ $filtro }} y num licencia {{$numlicencia}}
                         </div>
                     </div>
                     <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
@@ -39,9 +38,7 @@
 
     <script>
         $(function (){
-            var parametros = {
-                filtro: "{{$filtro}}",
-            };
+
             table = $("#datatable").DataTable({
                 procesing: true,
                 serverSide: true,
@@ -57,6 +54,11 @@
                     'data': function (d) {
                         d.filtro = "{{$filtro}}";
                         d.numlicencia = "{{$numlicencia}}";
+                        d.tipo_fecha = "{{$tipo_fecha}}";
+                        d.fecha1 = "{{$fecha1}}";
+                        d.fecha2 = "{{$fecha2}}";
+                        d.estado = "{{$estado}}";
+                        d.cedula = "{{$cedula}}";
                     }
                 //"data": {filtro: "1" ,_token: '{{csrf_token()}}', numlicencia: "6666"}
                     //data: {'filtro': filtro},
