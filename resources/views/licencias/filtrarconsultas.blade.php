@@ -70,7 +70,7 @@
                     <div class="col-sm-7">
                         {{Form::date('fecha2', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'fecha2'])}}
                     </div>
-                    {{Form::hidden('filtro', '2')}}
+                    {{Form::hidden('filtro2', '2',['id'=>'filtro2'])}}
                 </div>
                 <p align="center"><button type="button" id="CrearB" class="btn btn-custom waves-effect waves-light" onclick="consultarfechas()">Buscar</button></p>
                 {{Form::close()}}
@@ -82,7 +82,7 @@
                     <div class="col-sm-7">
                         {{Form::select('estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'estado'])}}
                     </div>
-                    {{Form::hidden('filtro', '3')}}
+                    {{Form::hidden('filtro3', '3',['id'=>'filtro3'])}}
                 </div>
                 <p align="center"><button type="button" id="CrearB" class="btn btn-custom waves-effect waves-light" onclick="consultarestado()">Buscar</button></p>
                 {{Form::close()}}
@@ -94,7 +94,7 @@
                     <div class="col-sm-7">
                         {{Form::text('cedula', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'cedula'])}}
                     </div>
-                    {{Form::hidden('filtro', '4')}}
+                    {{Form::hidden('filtro4', '4',['id'=>'filtro4'])}}
                 </div>
                 <p align="center"><button type="button" id="CrearB" class="btn btn-custom waves-effect waves-light" onclick="consultarcedula()">Buscar</button></p>
                 {{Form::close()}}
@@ -194,19 +194,19 @@
             var tipo_fecha=$('#tipo_fecha').val();
             var fecha1=$('#fecha1').val();
             var fecha2=$('#fecha2').val();
-            var filtro=$('#filtro').val();
+            var filtro=$('#filtro2').val();
             $('#tablaoculta').load('{{route('consultarxLicencia')}}',{_token: '{{csrf_token()}}',filtro:filtro,fecha1:fecha1,fecha2:fecha2,tipo_fecha:tipo_fecha});
             document.getElementById("tablaoculta").style.display = "block";
         }
         function consultarestado() {
             var estado=$('#estado').val();
-            var filtro=$('#filtro').val();
+            var filtro=$('#filtro3').val();
             $('#tablaoculta').load('{{route('consultarxLicencia')}}',{_token: '{{csrf_token()}}',filtro:filtro,estado:estado});
             document.getElementById("tablaoculta").style.display = "block";
         }
         function consultarcedula() {
             var cedula=$('#cedula').val();
-            var filtro=$('#filtro').val();
+            var filtro=$('#filtro4').val();
             $('#tablaoculta').load('{{route('consultarxLicencia')}}',{cedula:cedula,_token: '{{csrf_token()}}',filtro:filtro});
             document.getElementById("tablaoculta").style.display = "block";
         }

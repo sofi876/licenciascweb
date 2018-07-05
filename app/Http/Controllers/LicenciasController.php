@@ -133,17 +133,25 @@ class LicenciasController extends Controller
     {
 
         $filtro = $request->filtro;
+        $numlicencia = "";
+        $tipo_fecha = "";
+        $fecha1 = "";
+        $fecha2 = "";
+        $estado = "";
+        $cedula = "";
+
+
         if($filtro=="1" || $filtro == "2" || $filtro =="3" || $filtro == "4") {
 
             if($filtro=="1"){
                 $numlicencia=$request->numlicencia;
-
                 $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
                     ->where('num_licencia',$numlicencia)
                     ->get();
                 if(count($licencias)>0){
                     //dd($licencias);
-                    return view('licencias.parcialconsultarlicencias', compact(['numlicencia', 'filtro']));//
+                    //return view('licencias.parcialconsultarlicencias', compact(['numlicencia', 'filtro']));//
+                    return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
                 }
                 else {
                     return "<p align='center'>No se encontraron resultados</p>";
@@ -154,17 +162,48 @@ class LicenciasController extends Controller
                     $tipo_fecha=$request->tipo_fecha;
                     $fecha1=$request->fecha1;
                     $fecha2=$request->fecha2;
-                    return view('licencias.parcialconsultarlicencias', compact(['tipo_fecha','filtro','fecha1','fecha2']));
+                    //$fecha1=Carbon::createFromFormat("Y/m/d", $request->fecha1);
+                    //$fecha2=Carbon::createFromFormat("Y/m/d", $request->fecha2);
+                    $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
+                        ->whereBetween($tipo_fecha, [$fecha1, $fecha2])
+                        ->get();
+                    if(count($licencias)>0){
+                        //return view('licencias.parcialconsultarlicencias', compact(['tipo_fecha','filtro','fecha1','fecha2']));
+                        return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
+                    }
+                    else {
+                        return "<p align='center'>No se encontraron resultados</p>";
+                    }
                 }
                 else{
                     if($filtro=="3"){
                         $estado=$request->estado;
-                        return view('licencias.parcialconsultarlicencias', compact(['estado','filtro']));
+                        $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
+                            ->where('cod_estado', $estado)
+                            ->get();
+                        //dd($licencias);
+                        if(count($licencias)>0){
+                            //return view('licencias.parcialconsultarlicencias', compact(['estado','filtro']));
+                            return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
+                        }
+                        else {
+                            return "<p align='center'>No se encontraron resultados</p>";
+                        }
                     }
                     else{
                         if($filtro=="4"){
                             $cedula=$request->cedula;
-                            return view('licencias.parcialconsultarlicencias', compact(['cedula','filtro']));
+                            $licencias = LicenciaConstruccion::select(['licencia_construccion.cod_licencia','licencia_construccion.num_licencia','licencia_construccion.fecha_radicacion','licencia_construccion.fecha_expedicion','licencia_construccion.fecha_ejecutoria','licencia_construccion.fecha_vence','licencia_construccion.cod_estado','licencia_construccion.antecedentes'])
+                                ->join('datos_solicitante', 'licencia_construccion.cod_licencia', 'datos_solicitante.cod_licencia')
+                                ->where('datos_solicitante.documento', $cedula)
+                                ->get();
+                            if(count($licencias)>0){
+                                //return view('licencias.parcialconsultarlicencias', compact(['cedula','filtro']));
+                                return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
+                            }
+                            else {
+                                return "<p align='center'>No se encontraron resultados</p>";
+                            }
                         }
                         else {
                             return "<p align='center'>Error: Seleccione un tipo de búsqueda</p>";
@@ -181,11 +220,40 @@ class LicenciasController extends Controller
     {
         //dd($request->filtro);
         //$licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])->get();
-        $numlicencia=$request->numlicencia;
 
-        $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
-            ->where('num_licencia',$numlicencia)
-            ->get();
+        if($request->filtro == "1")
+        {
+            $numlicencia=$request->numlicencia;
+            $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
+                ->where('num_licencia',$numlicencia)
+                ->get();
+        }
+        if($request->filtro == "2")
+        {
+            $tipo_fecha=$request->tipo_fecha;
+            $fecha1=$request->fecha1;
+            $fecha2=$request->fecha2;
+            //$fecha1=Carbon::createFromFormat("Y/m/d", $request->fecha1);
+            //$fecha2=Carbon::createFromFormat("Y/m/d", $request->fecha2);
+            $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
+                ->whereBetween($tipo_fecha, [$fecha1, $fecha2])
+                ->get();
+        }
+        if($request->filtro == "3")
+        {
+            $estado=$request->estado;
+            $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
+                ->where('cod_estado', $estado)
+                ->get();
+        }
+        if($request->filtro == "4")
+        {
+            $cedula=$request->cedula;
+            $licencias = LicenciaConstruccion::select(['licencia_construccion.cod_licencia','licencia_construccion.num_licencia','licencia_construccion.fecha_radicacion','licencia_construccion.fecha_expedicion','licencia_construccion.fecha_ejecutoria','licencia_construccion.fecha_vence','licencia_construccion.cod_estado','licencia_construccion.antecedentes'])
+                ->join('datos_solicitante', 'licencia_construccion.cod_licencia', 'datos_solicitante.cod_licencia')
+                ->where('datos_solicitante.documento', $cedula)
+                ->get();
+        }
         return Datatables::of($licencias)
             ->addColumn('estado', function ($licencias) {
                 $estadol = EstadosLicencia::where("cod_estado", $licencias->cod_estado)->first();
