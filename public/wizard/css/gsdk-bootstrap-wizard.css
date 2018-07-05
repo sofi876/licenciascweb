@@ -54,7 +54,7 @@ input[type="button"]:focus {
 }
 
 .wizard-container {
-  padding-top: 100px;
+  padding-top: 2px;/*100*/
   z-index: 3;
 }
 

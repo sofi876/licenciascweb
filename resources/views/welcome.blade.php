@@ -2,7 +2,6 @@
 @section('contenido')
 <!-- Page content start -->
 <div class="page-contentbar">
-
     <!-- START PAGE CONTENT -->
     <div id="page-right-content">
 
