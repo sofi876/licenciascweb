@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
 //Route::get('/logout', 'LoginController@logout')->name('logout');
     /* FINALIZA GESTIÓN DE USUARIOS*/
 
-    /* INICIA CREACION LICENCIAS */
+    /* INICIA LICENCIAS */
     route::get('crearlicencia', 'LicenciasController@viewCrearLicencia')->name('crearlicencia');
     route::get('framecrearlicencia', 'LicenciasController@frameCrearLicencia')->name('framecrearlicencia');
     route::post('licencias/crear', 'LicenciasController@funcionCrearLicencia')->name('funcioncrearlicencia');
@@ -52,7 +52,15 @@ Route::group(['middleware' => 'auth'], function () {
     route::get('editarlicencia/{id}', 'LicenciasController@viewEditarLicencia')->name('editarlicencia');
     route::get('frameeditarlicencia/{id}', 'LicenciasController@frameEditarLicencia')->name('frameeditarlicencia');
     route::post('Licencias/editar/{id}', 'LicenciasController@funcionEditarLicencia')->name('funcionEditarLicencia');
+    /*FINALIZA LICENCIAS */
 
-    /*FINALIZA CREACION LICENCIAS */
+    /* INICIA  DENUNCIAS */
+    Route::get('denuncias/filtro','DenunciasController@verFiltroDenuncias')->name('consultarDenunciasFiltro');
+    Route::post('denuncias/filtroxfecha','DenunciasController@consultarxFecha')->name('consultarxFecha');
+    Route::post('denuncias/listafiltro', 'DenunciasController@gridConsultarDenunciasFiltro')->name('gridConsultarDenunciasFiltro');
+
+    //Route::get('denuncias/ver/{id}', 'LicenciasController@viewEditarDenuncia')->name('editarDenuncia');
+    //Route::post('denuncias/editar/{id}', 'LicenciasController@funcionEditarDenuncia')->name('funcionEditarDenuncia');
+    /*FINALIZA DENUNCIAS*/
 
 });

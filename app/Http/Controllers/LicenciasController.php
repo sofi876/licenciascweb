@@ -131,7 +131,6 @@ class LicenciasController extends Controller
     }
     public function consultarxlicencia(Request $request)
     {
-
         $filtro = $request->filtro;
         $numlicencia = "";
         $tipo_fecha = "";
@@ -139,7 +138,6 @@ class LicenciasController extends Controller
         $fecha2 = "";
         $estado = "";
         $cedula = "";
-
 
         if($filtro=="1" || $filtro == "2" || $filtro =="3" || $filtro == "4") {
 

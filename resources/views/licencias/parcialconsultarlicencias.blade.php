@@ -9,7 +9,7 @@
                         <table id="datatable" name="datatable" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Ver / Editar</th>
+                                <th>Ver</th>
                                 <th>Número de Licencia</th>
                                 <th>Radicación</th>
                                 <th>Expedición</th>
@@ -60,7 +60,7 @@
                         d.estado = "{{$estado}}";
                         d.cedula = "{{$cedula}}";
                     }
-                //"data": {filtro: "1" ,_token: '{{csrf_token()}}', numlicencia: "6666"}
+                //"data": {filtro: "1" ,_token: '{ {csrf_token()}}', numlicencia: "6666"}
                     //data: {'filtro': filtro},
                 },
                 columns: [

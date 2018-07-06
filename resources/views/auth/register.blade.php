@@ -74,7 +74,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Tipo') }}</label>
                             <div class="col-md-6">
-                                {{Form::select('tipo', ['1' => 'Administrador', '2' => 'Funcionario'], null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'tipo','value'=>old('tipo')])}}
+                                {{Form::select('tipo', ['1' => 'Administrador', '2' => 'Funcionario', '3' => 'Consultas'], null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'tipo','value'=>old('tipo')])}}
                             </div>
                         </div>
 

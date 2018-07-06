@@ -15,6 +15,7 @@
             <div class="col-md-12">
                 <div class="card" >
                     <div class="card-header" align="center"><h2>Consultar Licencias</h2></div>
+                    <input type="button" class="btn btn-success" value="Actualizar" onClick="location.reload();" />
                     <p><b>Nota:</b> Utilice las celdas inferiores de cada columna para filtrar los resultados.</p>
                     <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
                     <div class="table-responsive m-b-12">

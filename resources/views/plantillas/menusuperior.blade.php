@@ -37,6 +37,14 @@
                  </ul>
              </li>
                  @endif
+             @if((Auth::User()->tipo) == "1" )
+                 <li class="has-submenu">
+                     <a href="#"> <span><i class="ti-files"></i></span><span> Denuncias </span> </a>
+                     <ul class="submenu">
+                         <li><a href="{{route('consultarDenunciasFiltro')}}">Consultar</a></li>
+                     </ul>
+                 </li>
+             @endif
         </ul>
 
     </li>
