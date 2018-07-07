@@ -41,7 +41,13 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Imagen:</label>
                                 <div class="col-sm-7">
-                                    -pendiente-
+                                    <!-- tener en cuenta el tipo de formato de la foto jpg, png etc -->
+                                    @if($denuncia->imagen != "")
+                                        <!-- <img src="data:image/jpg;base64,{ {$denuncias->imagen}}" alt="foto" width=100px height=100px /> -->
+                                    <img src="{{$denuncia->imagen}}" alt="foto"  height=300px /> <!-- width=300px -->
+                                    @else
+                                    < Sin imagen >
+                                        @endif
                                 </div>
                             </div>
                             <div class="form-group">
