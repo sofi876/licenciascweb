@@ -59,8 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('denuncias/filtroxfecha','DenunciasController@consultarxFecha')->name('consultarxFecha');
     Route::post('denuncias/listafiltro', 'DenunciasController@gridConsultarDenunciasFiltro')->name('gridConsultarDenunciasFiltro');
 
-    //Route::get('denuncias/ver/{id}', 'LicenciasController@viewEditarDenuncia')->name('editarDenuncia');
-    //Route::post('denuncias/editar/{id}', 'LicenciasController@funcionEditarDenuncia')->name('funcionEditarDenuncia');
+    Route::get('denuncias/ver/{id}', 'DenunciasController@viewEditarDenuncia')->name('editarDenuncia');
+    Route::post('denuncias/editar/{id}', 'DenunciasController@funcionEditarDenuncia')->name('funcionEditarDenuncia');
     /*FINALIZA DENUNCIAS*/
 
 });

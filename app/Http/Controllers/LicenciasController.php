@@ -336,7 +336,9 @@ class LicenciasController extends Controller
             $result['estado'] = true;
             $result['mensaje'] = 'La licencia ha sido actualizada satisfactoriamente';
         } catch (\Exception $exception) {
-            return redirect()->back()->with("error","Los datos de la licencia no pudieron ser actualizados.");
+            $result['estado'] = false;
+            $result['mensaje'] = 'Los datos de la licencia no pudieron ser actualizados.' . $exception->getMessage();
+            //return redirect()->back()->with("error","Los datos de la licencia no pudieron ser actualizados.");
             \DB::rollBack();
         }
         return $result;
