@@ -52,6 +52,8 @@ Route::group(['middleware' => 'auth'], function () {
     route::get('editarlicencia/{id}', 'LicenciasController@viewEditarLicencia')->name('editarlicencia');
     route::get('frameeditarlicencia/{id}', 'LicenciasController@frameEditarLicencia')->name('frameeditarlicencia');
     route::post('Licencias/editar/{id}', 'LicenciasController@funcionEditarLicencia')->name('funcionEditarLicencia');
+
+    Route::get('Licencias/reporte/exportarexcel','LicenciasController@generarReporteExcel')->name('excelLicencias');
     /*FINALIZA LICENCIAS */
 
     /* INICIA  DENUNCIAS */

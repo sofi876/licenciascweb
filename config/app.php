@@ -160,6 +160,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+	Maatwebsite\Excel\ExcelServiceProvider::class, 
 
     ],
 
@@ -212,6 +213,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+	'Excel' => Maatwebsite\Excel\ExcelServiceProvider::class, 
     ],
 
 ];

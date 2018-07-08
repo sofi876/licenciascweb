@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Excel;
+//use PHPExcel_Worksheet_Drawing;
 
 class LicenciasController extends Controller
 {
@@ -146,73 +148,46 @@ class LicenciasController extends Controller
                 $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
                     ->where('num_licencia',$numlicencia)
                     ->get();
-                if(count($licencias)>0){
-                    //dd($licencias);
-                    //return view('licencias.parcialconsultarlicencias', compact(['numlicencia', 'filtro']));//
-                    return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
-                }
-                else {
-                    return "<p align='center'>No se encontraron resultados</p>";
-                }
             }
-            else{
-                if($filtro=="2"){
+            if($filtro=="2"){
                     $tipo_fecha=$request->tipo_fecha;
                     $fecha1=$request->fecha1;
                     $fecha2=$request->fecha2;
-                    //$fecha1=Carbon::createFromFormat("Y/m/d", $request->fecha1);
-                    //$fecha2=Carbon::createFromFormat("Y/m/d", $request->fecha2);
                     $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
                         ->whereBetween($tipo_fecha, [$fecha1, $fecha2])
                         ->get();
-                    if(count($licencias)>0){
-                        //return view('licencias.parcialconsultarlicencias', compact(['tipo_fecha','filtro','fecha1','fecha2']));
-                        return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
-                    }
-                    else {
-                        return "<p align='center'>No se encontraron resultados</p>";
-                    }
-                }
-                else{
-                    if($filtro=="3"){
+           }
+           if($filtro=="3"){
                         $estado=$request->estado;
                         $licencias = LicenciaConstruccion::select(['cod_licencia','num_licencia','fecha_radicacion','fecha_expedicion','fecha_ejecutoria','fecha_vence','cod_estado','antecedentes'])
                             ->where('cod_estado', $estado)
                             ->get();
-                        //dd($licencias);
-                        if(count($licencias)>0){
-                            //return view('licencias.parcialconsultarlicencias', compact(['estado','filtro']));
-                            return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
-                        }
-                        else {
-                            return "<p align='center'>No se encontraron resultados</p>";
-                        }
-                    }
-                    else{
-                        if($filtro=="4"){
-                            $cedula=$request->cedula;
-                            $licencias = LicenciaConstruccion::select(['licencia_construccion.cod_licencia','licencia_construccion.num_licencia','licencia_construccion.fecha_radicacion','licencia_construccion.fecha_expedicion','licencia_construccion.fecha_ejecutoria','licencia_construccion.fecha_vence','licencia_construccion.cod_estado','licencia_construccion.antecedentes'])
+           }
+           if($filtro=="4") {
+                            $cedula = $request->cedula;
+                            $licencias = LicenciaConstruccion::select(['licencia_construccion.cod_licencia', 'licencia_construccion.num_licencia', 'licencia_construccion.fecha_radicacion', 'licencia_construccion.fecha_expedicion', 'licencia_construccion.fecha_ejecutoria', 'licencia_construccion.fecha_vence', 'licencia_construccion.cod_estado', 'licencia_construccion.antecedentes'])
                                 ->join('datos_solicitante', 'licencia_construccion.cod_licencia', 'datos_solicitante.cod_licencia')
                                 ->where('datos_solicitante.documento', $cedula)
                                 ->get();
-                            if(count($licencias)>0){
-                                //return view('licencias.parcialconsultarlicencias', compact(['cedula','filtro']));
-                                return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula']));
-                            }
-                            else {
-                                return "<p align='center'>No se encontraron resultados</p>";
-                            }
-                        }
-                        else {
-                            return "<p align='center'>Error: Seleccione un tipo de búsqueda</p>";
-                        }
-                    }
-                }
-            }
+           }
+           if(count($licencias)>0){
+                $lista_licencias = array();
+                               //return view('licencias.parcialconsultarlicencias', compact(['cedula','filtro']));
+               foreach ($licencias as $licencia) {
+                   $lista_licencias[] = $licencia->cod_licencia;
+               }
+               //dd($lista_licencias);
+               return view('licencias.parcialconsultarlicencias', compact(['filtro', 'numlicencia', 'tipo_fecha', 'fecha1', 'fecha2', 'estado', 'cedula', 'licencias', 'lista_licencias']));
+           }
+           else {
+                 return "<p align='center'>No se encontraron resultados</p>";
+           }
         }
         else {
             return "<p align='center'>Error: Seleccione un tipo de búsqueda</p>";
-        }
+            }
+
+
     }
     public function gridConsultarLicenciasFiltro(Request $request)
     {
@@ -344,4 +319,106 @@ class LicenciasController extends Controller
         return $result;
 
     }
+    public function generarReporteExcel(Request $request)
+    {
+        $licencias = LicenciaConstruccion::join('informacion_predio', 'licencia_construccion.cod_licencia', 'informacion_predio.cod_licencia')
+            ->join('datos_solicitante', 'licencia_construccion.cod_licencia', 'datos_solicitante.cod_licencia')
+            ->join('caracteristicas_licencia', 'licencia_construccion.cod_licencia', 'caracteristicas_licencia.cod_licencia')
+            ->join('estado_licencia', 'licencia_construccion.cod_estado', 'estado_licencia.cod_estado')
+            ->join('tipo_persona', 'datos_solicitante.cod_tipo_persona', 'tipo_persona.cod_tipo_persona')
+            ->join('tipo_licencia', 'caracteristicas_licencia.cod_tipo_licencia', 'tipo_licencia.cod_tipo_licencia')
+            ->join('modalidad', 'caracteristicas_licencia.cod_modalidad', 'modalidad.cod_modalidad')
+            ->join('objeto_tramite', 'caracteristicas_licencia.cod_objeto', 'objeto_tramite.cod_objeto')
+            ->join('tipo_uso', 'caracteristicas_licencia.cod_tipo_uso', 'tipo_uso.cod_tipo_uso')
+            ->wherein('licencia_construccion.cod_licencia',$request->lista_licencias)
+            ->select(['licencia_construccion.*', 'datos_solicitante.documento', 'datos_solicitante.nombres', 'datos_solicitante.apellidos',
+                'datos_solicitante.cod_tipo_persona', 'informacion_predio.direccion', 'informacion_predio.barrio', 'informacion_predio.manzana',
+                'informacion_predio.lote', 'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion',
+                'caracteristicas_licencia.des_proyecto', 'caracteristicas_licencia.cod_tipo_licencia', 'caracteristicas_licencia.cod_modalidad',
+                'caracteristicas_licencia.cod_objeto', 'caracteristicas_licencia.cod_tipo_uso', 'caracteristicas_licencia.num_pisos',
+                'estado_licencia.des_estado_licencia','tipo_persona.des_persona','tipo_licencia.des_licencia',
+                'modalidad.des_modalidad','objeto_tramite.des_objeto','tipo_uso.des_uso'])
+            ->orderby('licencia_construccion.num_licencia', 'asc')
+            ->get();
+       // dd($licencias);
+
+        \Excel::create('ExcelLicencias', function ($excel) use ($request, $licencias) {
+            if (sizeof($licencias) > 0) {
+                $excel->sheet('Reporte', function ($sheet) use ($licencias) {
+                    $hoy = Carbon::now();
+                    /*$objDrawing = new PHPExcel_Worksheet_Drawing;
+                    $objDrawing->setPath(public_path('images/logo.png')); //your image path
+                    $objDrawing->setHeight(50);
+                    $objDrawing->setCoordinates('A1');
+                    $objDrawing->setWorksheet($sheet);
+                    $objDrawing->setOffsetY(10);*/
+                    $sheet->setWidth(array(
+                        'A' => 18,
+                        'B' => 18,
+                        'C' => 18,
+                        'D' => 18,
+                        'E' => 18,
+                        'F' => 14,
+                        'G' => 14,
+                        'H' => 14,
+                        'I' => 14,
+                        'J' => 14,
+                        'K' => 16,
+                        'L' => 12,
+                        'M' => 12,
+                        'N' => 12,
+                        'O' => 12,
+                        'P' => 12,
+                        'Q' => 20,
+                        'R' => 20,
+                        'S' => 20,
+                        'T' => 12,
+                        'U' => 12,
+                        'V' => 15,
+                        'W' => 16,
+                    ));
+                    $sheet->row(2, array('REPORTE DE LICENCIAS DE CONSTRUCCIÓN'));
+                    $sheet->row(2, function ($row) {
+                        $row->setBackground('#4CAF50');
+                    });
+                    /*$sheet->cells('A1:A4', function ($cells) {
+                        $cells->setBackground('#FFFFFF');
+                    });*/
+                    $sheet->row(3, array('Fecha:', $hoy));
+                    $sheet->row(3, function ($row) {
+                        $row->setBackground('#4CAF50');
+                    });
+                    $filainicial=5;
+                    $fila = $filainicial;
+                    $cant = 0;
+                    $sheet->row(($fila), function ($row) {
+                        $row->setBackground('#06AEF1');
+                    });
+
+                    $sheet->row(($fila), array('DATOS DE LA LICENCIA','','', '', '', '', '', 'SOLICITANTE', '', '', '', 'PREDIO', '', '', '', '', '', 'CARACTERÍSTICAS', '', '', '', '', ''));
+                    $sheet->mergeCells('A'.($fila).':G'.($fila));
+                    $sheet->mergeCells('H'.($fila).':K'.($fila));
+                    $sheet->mergeCells('L'.($fila).':Q'.($fila));
+                    $sheet->mergeCells('R'.($fila).':W'.($fila));
+                    //$sheet->getStyle("A".($fila).":Z".($fila))->getAlignment()->applyFromArray(array('horizontal' => 'center'));
+                    $fila++;
+                    $sheet->row($fila, array('Número de Licencia','Fecha de radicación','Fecha de expedición', 'Fecha de ejecutoría', 'Fecha de vencimiento', 'Estado', 'Antecedentes', 'Documento', 'Nombres', 'Apellidos', 'Tipo de persona', 'Dirección', 'Barrio', 'Manzana', 'Lote', 'Estrato', 'Cédula catastral', 'Descripción del proyecto', 'Tipo de Licencia', 'Modalidad', 'Objeto', 'Tipo de uso', 'Número de pisos'));
+                    $sheet->row($fila, function ($row) {
+                        $row->setBackground('#f2f2f2');
+                    });
+                    $fila++;
+                    foreach ($licencias as $licencia) {
+                        $cant++;
+                        $sheet->row($fila, array($licencia->num_licencia, $licencia->fecha_radicacion, $licencia->fecha_expedicion, $licencia->fecha_ejecutoria, $licencia->fecha_vence, $licencia->des_estado_licencia, $licencia->antecedentes, $licencia->documento, $licencia->nombres, $licencia->apellidos, $licencia->des_persona, $licencia->direccion, $licencia->barrio, $licencia->manzana, $licencia->lote, $licencia->estrato, $licencia->cedula_catastral, $licencia->des_proyecto, $licencia->des_licencia, $licencia->des_modalidad, $licencia->des_objeto, $licencia->des_uso, $licencia->num_pisos));
+                        $fila++;
+
+                    } //finaliza foreach
+                    $filafinal = $fila - 1;
+                    $sheet->setBorder('A'.$filainicial.':W'.$filafinal, 'thin');
+                });        //CIERRA PESTAÑA
+            } //finaliza if
+        })->export('xls');
+
+    }
+
 }
