@@ -97,7 +97,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Antecedentes</label>
                                         <div class="col-sm-7">
-                                            {{Form::text('antecedentes', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                            {{Form::text('antecedentes', null ,['class'=>'form-control', "tabindex"=>"7",'id'=>'antecedentes'])}}
                                         </div>
                                     </div>
                                 </div>
@@ -135,31 +135,34 @@
                             </div>
                             <div class="tab-pane" id="paso3">
                                 <div class="row">
-                                    <!-- <div class="col-sm-12">
-                                         <h4 class="info-text"></h4>
-                                     </div>-->
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Dirección:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('direccion', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'direccion'])}} <!-- "data-parsley-type"=>"number"] -->
+                                        <div class="col-sm-2">
+                                            {{Form::select('viaprincipal', ['AP' => 'AUTOPISTA', 'AV' => 'AVENIDA', 'AC' => 'AVENIDA CALLE', 'AK' => 'AVENIDA CARRERA', 'CL' => 'CALLE', 'CRA' => 'CARRERA', 'CIRC' => 'CIRCUNVALAR', 'DG' => 'DIAGONAL', 'MANZ' => 'MANZANA', 'TV' => 'TRANSVERSAL', 'VIA' => 'VIA',], null,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'viaprincipal'])}} <!-- ,'value'=>old('viaprincipal') -->
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{Form::text('numerovia', null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'numerovia',"data-parsley-type"=>"alphanum","maxlength"=>"5"])}}
+                                        </div>
+                                        <label class="col-sm-1 control-label">#</label>
+                                        <div class="col-sm-1">
+                                            {{Form::text('numero1', null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'numero1',"data-parsley-type"=>"alphanum","maxlength"=>"5"])}}
+                                        </div>
+                                        <label class="col-sm-1 control-label">-</label>
+                                        <div class="col-sm-1">
+                                        {{Form::text('numero2', null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'numero2',"data-parsley-type"=>"number","maxlength"=>"5"])}}
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Complemento:</label>
+                                        <div class="col-sm-7">
+                                        {{Form::text('complemento', null,['class'=>'form-control', "tabindex"=>"5",'id'=>'complemento','data-parsley-pattern'=>'^[a-zA-Z0-9]+(\s*[a-zA-Z0-9]*)*[a-zA-Z0-9]+$','maxlength'=>'60'])}}
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Barrio:</label>
                                         <div class="col-sm-7">
                                         {{Form::text('barrio', null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Manzana:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('manzana', null ,['class'=>'form-control', "tabindex"=>"3",'id'=>'manzana'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Lote:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('lote', null ,['class'=>'form-control', "tabindex"=>"4",'id'=>'lote'])}} <!-- "data-parsley-type"=>"number"] -->
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -171,7 +174,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Cédula Catastral:</label>
                                         <div class="col-sm-7">
-                                        {{Form::text('cedula_catastral', null ,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cedula_catastral'])}} <!-- "data-parsley-type"=>"number"] -->
+                                        {{Form::text('cedula_catastral', null ,['class'=>'form-control', "tabindex"=>"6",'id'=>'cedula_catastral'])}} <!-- "data-parsley-type"=>"number"] -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Matricula Inmobiliaria:</label>
+                                        <div class="col-sm-7">
+                                        {{Form::text('matricula', null ,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'matricula'])}} <!-- "data-parsley-type"=>"number"] -->
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +258,7 @@
 <script src="{{asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
 
 <script src="{{asset('plugins/select2/js/select2.min.js')}}" type="text/javascript"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
+<script src="{{asset('http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js')}}"></script>
 
 <!--  Plugin for the Wizard -->
 <script src="{{asset('wizard/js/gsdk-bootstrap-wizard.js')}}"></script>

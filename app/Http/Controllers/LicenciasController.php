@@ -68,10 +68,16 @@ class LicenciasController extends Controller
 
             $predio = new Predio();
             $predio->cod_licencia = $next;
-            $predio->direccion = $request->direccion;
+            //$predio->direccion = $request->direccion;
+            $predio->viaprincipal = $request->viaprincipal;
+            $predio->numerovia = $request->numerovia;
+            $predio->numero1 = $request->numero1;
+            $predio->numero2 = $request->numero2;
+            $predio->complemento = $request->complemento;
+            $predio->matricula = $request->matricula;
             $predio->barrio = $request->barrio;
-            $predio->manzana = $request->manzana;
-            $predio->lote = $request->lote;
+            //$predio->manzana = $request->manzana;
+            //$predio->lote = $request->lote;
             $predio->estrato = $request->estrato;
             $predio->cedula_catastral = $request->cedula_catastral;
             $predio->save();
@@ -253,7 +259,7 @@ class LicenciasController extends Controller
             ->join('datos_solicitante', 'licencia_construccion.cod_licencia', 'datos_solicitante.cod_licencia')
             ->join('caracteristicas_licencia', 'licencia_construccion.cod_licencia', 'caracteristicas_licencia.cod_licencia')
             ->where('licencia_construccion.cod_licencia',$id)
-            ->select(['licencia_construccion.*', 'datos_solicitante.documento', 'datos_solicitante.nombres', 'datos_solicitante.apellidos', 'datos_solicitante.cod_tipo_persona', 'informacion_predio.direccion', 'informacion_predio.barrio', 'informacion_predio.manzana', 'informacion_predio.lote', 'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion', 'caracteristicas_licencia.des_proyecto', 'caracteristicas_licencia.cod_tipo_licencia', 'caracteristicas_licencia.cod_modalidad', 'caracteristicas_licencia.cod_objeto', 'caracteristicas_licencia.cod_tipo_uso', 'caracteristicas_licencia.num_pisos'])
+            ->select(['licencia_construccion.*', 'datos_solicitante.documento', 'datos_solicitante.nombres', 'datos_solicitante.apellidos', 'datos_solicitante.cod_tipo_persona', 'informacion_predio.viaprincipal', 'informacion_predio.barrio', 'informacion_predio.numerovia', 'informacion_predio.numero1', 'informacion_predio.numero2', 'informacion_predio.complemento', 'informacion_predio.matricula', 'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion', 'caracteristicas_licencia.des_proyecto', 'caracteristicas_licencia.cod_tipo_licencia', 'caracteristicas_licencia.cod_modalidad', 'caracteristicas_licencia.cod_objeto', 'caracteristicas_licencia.cod_tipo_uso', 'caracteristicas_licencia.num_pisos'])
             ->first();
 
         $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
@@ -290,10 +296,16 @@ class LicenciasController extends Controller
             $solicitante->save();
 
             $predio = Predio::where('cod_licencia',$licencia->cod_licencia)->first();
-            $predio->direccion = $request->direccion;
+            //$predio->direccion = $request->direccion;
+            $predio->viaprincipal = $request->viaprincipal;
+            $predio->numerovia = $request->numerovia;
+            $predio->numero1 = $request->numero1;
+            $predio->numero2 = $request->numero2;
+            $predio->complemento = $request->complemento;
+            $predio->matricula = $request->matricula;
             $predio->barrio = $request->barrio;
-            $predio->manzana = $request->manzana;
-            $predio->lote = $request->lote;
+            //$predio->manzana = $request->manzana;
+            //$predio->lote = $request->lote;
             $predio->estrato = $request->estrato;
             $predio->cedula_catastral = $request->cedula_catastral;
             $predio->save();
@@ -332,8 +344,10 @@ class LicenciasController extends Controller
             ->join('tipo_uso', 'caracteristicas_licencia.cod_tipo_uso', 'tipo_uso.cod_tipo_uso')
             ->wherein('licencia_construccion.cod_licencia',$request->lista_licencias)
             ->select(['licencia_construccion.*', 'datos_solicitante.documento', 'datos_solicitante.nombres', 'datos_solicitante.apellidos',
-                'datos_solicitante.cod_tipo_persona', 'informacion_predio.direccion', 'informacion_predio.barrio', 'informacion_predio.manzana',
-                'informacion_predio.lote', 'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion',
+                'datos_solicitante.cod_tipo_persona', 'informacion_predio.barrio',
+                'informacion_predio.viaprincipal', 'informacion_predio.numerovia', 'informacion_predio.numero1', 'informacion_predio.numero2',
+                'informacion_predio.complemento', 'informacion_predio.matricula',
+                'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion',
                 'caracteristicas_licencia.des_proyecto', 'caracteristicas_licencia.cod_tipo_licencia', 'caracteristicas_licencia.cod_modalidad',
                 'caracteristicas_licencia.cod_objeto', 'caracteristicas_licencia.cod_tipo_uso', 'caracteristicas_licencia.num_pisos',
                 'estado_licencia.des_estado_licencia','tipo_persona.des_persona','tipo_licencia.des_licencia',
@@ -341,6 +355,7 @@ class LicenciasController extends Controller
             ->orderby('licencia_construccion.num_licencia', 'asc')
             ->get();
        // dd($licencias);
+        //consultar todos los predios, con cod_licencia asociados a la lista_licencias
 
         \Excel::create('ExcelLicencias', function ($excel) use ($request, $licencias) {
             if (sizeof($licencias) > 0) {

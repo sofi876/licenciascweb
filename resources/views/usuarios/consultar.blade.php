@@ -27,7 +27,8 @@
                                     <th>Nombre</th>
                                     <th>Email</th>
                                     <th>Tipo</th>
-                                    <th>Notificar</th>
+                                    <th>Notificar Licencia</th>
+                                    <th>Notificar Denuncia</th>
                                     <th>Activo</th>
                                     <th>Editar</th>
                                 </tr>
@@ -36,6 +37,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Email</th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -95,15 +97,33 @@
                                 return 'Funcionario';
                             } else if (data == '3') {
                                 return 'Consultas';
+                                }else if (data == '4') {
+                                    return 'Denuncias';
                                 }else {
                                     return 'Error'
                                 }
+
                         },
                         searchable: false
                     },
                     {
-                        data: 'notificar',
-                        name: 'notificar',
+                        data: 'notificar_licencia',
+                        name: 'notificar_licencia',
+                        render: function (data) {
+                            if (data == '0') {
+                                return 'No';
+                            }
+                            else if (data == '1') {
+                                return 'Si';
+                            } else {
+                                return 'Error'
+                            }
+                        },
+                        searchable: false
+                    },
+                    {
+                        data: 'notificar_denuncia',
+                        name: 'notificar_denuncia',
                         render: function (data) {
                             if (data == '0') {
                                 return 'No';

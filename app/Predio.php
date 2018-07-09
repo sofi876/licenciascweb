@@ -11,6 +11,6 @@ class Predio extends Model
     public $timestamps = false;
     protected $primaryKey = 'cod_informacion';
     protected $fillable = [
-        'cod_informacion', 'cod_licencia', 'direccion', 'barrio', 'manzana', 'lote', 'estrato', 'cedula_catastral'
+        'cod_informacion', 'cod_licencia', 'barrio', 'viaprincipal', 'numerovia', 'numero1', 'numero2', 'complemento', 'estrato', 'matricula', 'cedula_catastral'
     ];
 }
