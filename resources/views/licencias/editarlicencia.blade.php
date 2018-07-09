@@ -135,6 +135,7 @@
                             </div>
                             <div class="tab-pane" id="paso3">
                                 <div class="row">
+                                    <a href="{{route('gestionarPredios',$licencia->cod_licencia)}}" target="_blank">Gestionar Predios</a>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Dirección:</label>
                                         <div class="col-sm-2">

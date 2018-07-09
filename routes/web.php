@@ -65,4 +65,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('denuncias/editar/{id}', 'DenunciasController@funcionEditarDenuncia')->name('funcionEditarDenuncia');
     /*FINALIZA DENUNCIAS*/
 
+    /* INICIA  PREDIOS */
+    Route::get('denuncias/predios/gestionar/{id}', 'PrediosController@viewGestionarPredios')->name('gestionarPredios');
+    Route::post('denuncias/predios/lista', 'PrediosController@gridConsultarPredios')->name('gridConsultarPredios');
+    Route::post('denuncias/predios/adicionar/{id}', 'PrediosController@funcionAdicionarPredio')->name('funcionAdicionarPredio');
+    /*FINALIZA PREDIOS*/
+
 });
