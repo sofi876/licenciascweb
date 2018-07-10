@@ -159,6 +159,12 @@
                                     <!-- <div class="col-sm-12">
                                          <h4 class="info-text"></h4>
                                      </div>-->
+                                    <div class="right">
+                                        <table border="0" width="40%" align="center">
+                                            <tr><td><a href="{{route('consultarHistorial',$licencia->cod_licencia)}}" target="_blank"><input type="button" value="Consultar Trazabilidad" class="btn btn-default"/></a></td></tr>
+                                        </table>
+                                    </div>
+                                    <br>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Descripción del proyecto:</label>
                                         <div class="col-sm-7">
@@ -196,6 +202,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="wizard-footer">

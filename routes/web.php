@@ -64,6 +64,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('denuncias/ver/{id}', 'DenunciasController@viewEditarDenuncia')->name('editarDenuncia');
     Route::post('denuncias/editar/{id}', 'DenunciasController@funcionEditarDenuncia')->name('funcionEditarDenuncia');
     /*FINALIZA DENUNCIAS*/
+    /* INICIA  TRAZABILIDAD LICENCIA */
+    Route::get('Licencias/trazabilidad/{id}', 'LicenciasController@viewHistorial')->name('consultarHistorial');
+    Route::post('Licencias/trazabilidad/lista', 'LicenciasController@gridHistorial')->name('gridConsultarHistorial');
+    /* FIN TRAZABILIDAD LICENCIA */
 
     /* INICIA  PREDIOS */
     Route::get('denuncias/predios/gestionar/{id}', 'PrediosController@viewGestionarPredios')->name('gestionarPredios');

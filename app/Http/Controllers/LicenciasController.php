@@ -7,6 +7,7 @@ use App\LicenciaConstruccion;
 use App\Solicitante;
 use App\Predio;
 use App\Caracteristicas;
+use App\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -452,5 +453,20 @@ class LicenciasController extends Controller
         })->export('xls');
 
     }
+    public function viewHistorial($id)
+    {
+        $licencia = LicenciaConstruccion::where('cod_licencia',$id)->first();
+        return view('licencias.historiallicencia', compact('licencia'));
+    }
+    public function gridHistorial(Request $request)
+    {
+        $registros = AuditoriaLicencia::where('cod_licencia',$request->codlicencia)->orderby('fecha', 'DESC')->get();
 
+        return Datatables::of($registros)
+            ->addColumn('usuario', function ($registros) {
+                $usuario = User::where("id", $registros->cod_usuario)->first();
+                return $usuario->name." (".$usuario->email.")";
+            })
+            ->make(true);
+    }
 }
