@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('denuncias/predios/gestionar/{id}', 'PrediosController@viewGestionarPredios')->name('gestionarPredios');
     Route::post('denuncias/predios/lista', 'PrediosController@gridConsultarPredios')->name('gridConsultarPredios');
     Route::post('denuncias/predios/adicionar/{id}', 'PrediosController@funcionAdicionarPredio')->name('funcionAdicionarPredio');
+    Route::get('denuncias/predios/adicionar/{id}', 'PrediosController@funcionEliminarPredio')->name('funcionEliminarPredio');
     /*FINALIZA PREDIOS*/
 
 });

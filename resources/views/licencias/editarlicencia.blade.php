@@ -135,55 +135,23 @@
                             </div>
                             <div class="tab-pane" id="paso3">
                                 <div class="row">
-                                    <a href="{{route('gestionarPredios',$licencia->cod_licencia)}}" target="_blank">Gestionar Predios</a>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Dirección:</label>
-                                        <div class="col-sm-2">
-                                            {{Form::select('viaprincipal', ['AP' => 'AUTOPISTA', 'AV' => 'AVENIDA', 'AC' => 'AVENIDA CALLE', 'AK' => 'AVENIDA CARRERA', 'CL' => 'CALLE', 'CRA' => 'CARRERA', 'CIRC' => 'CIRCUNVALAR', 'DG' => 'DIAGONAL', 'MANZ' => 'MANZANA', 'TV' => 'TRANSVERSAL', 'VIA' => 'VIA',], null,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'viaprincipal'])}} <!-- ,'value'=>old('viaprincipal') -->
+                                    <h3>Predios Asociados</h3>
+                                    <table border="0" width="40%" align="center">
+                                    <tr><td><input type="button" class="btn btn-success" value="Actualizar" onClick="location.reload();" /></td>
+                                        <td><a href="{{route('gestionarPredios',$licencia->cod_licencia)}}" target="_blank"><input type="button" value="Gestionar Predios" class="btn btn-default"/></a></td></tr>
+                                    </table><br>
+                                    <!-- <div class="btn-block">  -->
+                                    <?php $cont=1; ?>
+                                    @foreach($predios as $predio)
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Dirección {{$cont}}:</label>
+                                            <div class="col-sm-7">
+                                            {{$predio->viaprincipal." ".$predio->numerovia." # ".$predio->numero1. " - ".$predio->numero2." ".$predio->complemento}}
+                                            </div>
                                         </div>
-                                        <div class="col-sm-1">
-                                            {{Form::text('numerovia', null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'numerovia',"data-parsley-type"=>"alphanum","maxlength"=>"5"])}}
-                                        </div>
-                                        <label class="col-sm-1 control-label">#</label>
-                                        <div class="col-sm-1">
-                                            {{Form::text('numero1', null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'numero1',"data-parsley-type"=>"alphanum","maxlength"=>"5"])}}
-                                        </div>
-                                        <label class="col-sm-1 control-label">-</label>
-                                        <div class="col-sm-1">
-                                        {{Form::text('numero2', null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'numero2',"data-parsley-type"=>"number","maxlength"=>"5"])}}
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Complemento:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('complemento', null,['class'=>'form-control', "tabindex"=>"5",'id'=>'complemento','data-parsley-pattern'=>'^[a-zA-Z0-9]+(\s*[a-zA-Z0-9]*)*[a-zA-Z0-9]+$','maxlength'=>'60'])}}
-                                        </div>
-                                    </div>
+                                        <?php $cont++; ?>
+                                        @endforeach
 
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Barrio:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('barrio', null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Estrato:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::number('estrato', null ,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'estrato','min'=>'0','max'=>'6'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Cédula Catastral:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('cedula_catastral', null ,['class'=>'form-control', "tabindex"=>"6",'id'=>'cedula_catastral'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Matricula Inmobiliaria:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('matricula', null ,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'matricula'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane" id="paso4">

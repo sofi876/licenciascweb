@@ -7,6 +7,9 @@ use App\LicenciaConstruccion;
 use App\Predio;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use App\AuditoriaLicencia;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PrediosController extends Controller
 {
@@ -23,7 +26,6 @@ class PrediosController extends Controller
         $predios = Predio::select(['cod_licencia','barrio','estrato','cedula_catastral','cod_informacion','viaprincipal','numerovia','numero1','numero2','complemento','matricula'])
             ->where('cod_licencia',$request->codlicencia)
             ->get();
-
         return Datatables::of($predios)
             ->addColumn('direccion', function ($predios) {
                 $direccion = $predios->viaprincipal." ".$predios->numerovia." # ".$predios->numero1. " - ".$predios->numero2." ".$predios->complemento;
@@ -32,7 +34,7 @@ class PrediosController extends Controller
             ->addColumn('action', function ($predios) {
                 $acciones = "";
                 $acciones .= '<div class="btn-group">'; //target="_blank"
-                //$acciones .= '<a data-modal href="' . route('eliminarPredio', [$predios->cod_informacion,$predios->cod_licencia]) . '" type="button" class="btn btn-custom btn-xs">Eliminar</a>';
+                    $acciones .= '<a data-modal href="' . route('funcionEliminarPredio', [$predios->cod_informacion,$predios->cod_licencia]) . '"  onclick="return eliminarpredio()" type="button" class="btn btn-custom btn-xs">Eliminar</a>';
                 $acciones .= '</div>';
                 return $acciones;
                 //
@@ -65,6 +67,14 @@ class PrediosController extends Controller
             $predio->cedula_catastral = $request->cedula_catastral;
             $predio->save();
 
+            //Registrar Trazabilidad
+            $auditoria = new AuditoriaLicencia();
+            $auditoria->tipo = "Adicionar predio";
+            $auditoria->fecha = Carbon::now();
+            $auditoria->cod_usuario = Auth::User()->id;
+            $auditoria->cod_licencia = $id;
+            $auditoria->save();
+
             \DB::commit();
             $result['estado'] = true;
             $result['mensaje'] = 'El predio ha sido adicionado satisfactoriamente';
@@ -79,6 +89,25 @@ class PrediosController extends Controller
     }
     public function funcionEliminarPredio(Request $request, $id)//lega id de la licencia e id del predio a eliminar
     {
-
+        try {
+            $predio = Predio::find($id);
+            $cantidad = Predio::where('cod_licencia',$predio->cod_licencia)->count();
+            if($cantidad>1) {
+                $predio->delete();
+                //Registrar Trazabilidad
+                $auditoria = new AuditoriaLicencia();
+                $auditoria->tipo = "Eliminar predio";
+                $auditoria->fecha = Carbon::now();
+                $auditoria->cod_usuario = Auth::User()->id;
+                $auditoria->cod_licencia = $predio->cod_licencia;
+                $auditoria->save();
+                return redirect()->back()->with("success", "El predio ha sido eliminado! ");
+            }
+            else
+                return redirect()->back()->with("error","El predio no puede ser eliminado, porque es el único asociado a la licencia.");
+        }
+        catch (\Exception $exception) {
+            return redirect()->back()->with("error","El predio no pudo ser eliminado.");
+        }
     }
 }

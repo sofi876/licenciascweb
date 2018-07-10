@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\AuditoriaLicencia;
 use App\EstadosLicencia;
 use App\LicenciaConstruccion;
 use App\Solicitante;
@@ -91,9 +92,14 @@ class LicenciasController extends Controller
             $caracteristica->cod_tipo_uso = $request->cod_tipo_uso;
             $caracteristica->num_pisos = $request->num_pisos;
             $caracteristica->save();
-            /*DB::table('licencia_construccion')->insert(
-                ['cod_licencia' => $next,'num_licencia' => $request->numero_licencia, 'fecha_radicacion' => $request->fradicacion, 'fecha_expedicion' => $request->fexpedicion, 'fecha_ejecutoria' => $request->fejecutoria, 'fecha_vence' => $request->fvence, 'cod_estado' => $request->cod_estado, 'antecedentes' => $request->antecedentes]
-            );*/
+
+            //Registrar Trazabilidad
+            $auditoria = new AuditoriaLicencia();
+            $auditoria->tipo = "Creación";
+            $auditoria->fecha = Carbon::now();
+            $auditoria->cod_usuario = Auth::User()->id;
+            $auditoria->cod_licencia = $next;
+            $auditoria->save();
 
             //save
             \DB::commit();
@@ -251,6 +257,7 @@ class LicenciasController extends Controller
     public function viewEditarLicencia($id)
     {
         $licencia = LicenciaConstruccion::where('cod_licencia',$id)->first();
+
         return view('licencias.vieweditarlicencia', compact('licencia'));
     }
     public function frameEditarLicencia($id)
@@ -261,14 +268,16 @@ class LicenciasController extends Controller
             ->where('licencia_construccion.cod_licencia',$id)
             ->select(['licencia_construccion.*', 'datos_solicitante.documento', 'datos_solicitante.nombres', 'datos_solicitante.apellidos', 'datos_solicitante.cod_tipo_persona', 'informacion_predio.viaprincipal', 'informacion_predio.barrio', 'informacion_predio.numerovia', 'informacion_predio.numero1', 'informacion_predio.numero2', 'informacion_predio.complemento', 'informacion_predio.matricula', 'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion', 'caracteristicas_licencia.des_proyecto', 'caracteristicas_licencia.cod_tipo_licencia', 'caracteristicas_licencia.cod_modalidad', 'caracteristicas_licencia.cod_objeto', 'caracteristicas_licencia.cod_tipo_uso', 'caracteristicas_licencia.num_pisos'])
             ->first();
-
+        $predios = Predio::select(['cod_licencia','barrio','estrato','cedula_catastral','cod_informacion','viaprincipal','numerovia','numero1','numero2','complemento','matricula'])
+            ->where('cod_licencia',$licencia->cod_licencia)
+            ->get();
         $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
         $tipospersona = DB::table('tipo_persona')->pluck('des_persona', 'cod_tipo_persona');
         $tiposlicencia = DB::table('tipo_licencia')->pluck('des_licencia', 'cod_tipo_licencia');
         $modalidades = DB::table('modalidad')->pluck('des_modalidad', 'cod_modalidad');
         $objetos = DB::table('objeto_tramite')->pluck('des_objeto', 'cod_objeto');
         $tiposuso = DB::table('tipo_uso')->pluck('des_uso', 'cod_tipo_uso');
-        return view('licencias.editarlicencia', compact(['licencia','estados','tipospersona','tiposlicencia','modalidades','objetos','tiposuso']));
+        return view('licencias.editarlicencia', compact(['licencia','estados','tipospersona','tiposlicencia','modalidades','objetos','tiposuso','predios']));
     }
     public function funcionEditarLicencia(Request $request, $id)
     {
@@ -295,7 +304,7 @@ class LicenciasController extends Controller
             $solicitante->cod_tipo_persona = $request->cod_tipo_persona;
             $solicitante->save();
 
-            $predio = Predio::where('cod_licencia',$licencia->cod_licencia)->first();
+            /*$predio = Predio::where('cod_licencia',$licencia->cod_licencia)->first();
             //$predio->direccion = $request->direccion;
             $predio->viaprincipal = $request->viaprincipal;
             $predio->numerovia = $request->numerovia;
@@ -308,7 +317,7 @@ class LicenciasController extends Controller
             //$predio->lote = $request->lote;
             $predio->estrato = $request->estrato;
             $predio->cedula_catastral = $request->cedula_catastral;
-            $predio->save();
+            $predio->save();*/
 
             $caracteristica = Caracteristicas::where('cod_licencia',$licencia->cod_licencia)->first();
             $caracteristica->des_proyecto = $request->des_proyecto;
@@ -318,6 +327,14 @@ class LicenciasController extends Controller
             $caracteristica->cod_tipo_uso = $request->cod_tipo_uso;
             $caracteristica->num_pisos = $request->num_pisos;
             $caracteristica->save();
+
+            //Registrar Trazabilidad
+            $auditoria = new AuditoriaLicencia();
+            $auditoria->tipo = "Modificación";
+            $auditoria->fecha = Carbon::now();
+            $auditoria->cod_usuario = Auth::User()->id;
+            $auditoria->cod_licencia = $licencia->cod_licencia;
+            $auditoria->save();
 
             \DB::commit();
             $result['estado'] = true;
