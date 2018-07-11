@@ -54,6 +54,11 @@ Route::group(['middleware' => 'auth'], function () {
     route::post('Licencias/editar/{id}', 'LicenciasController@funcionEditarLicencia')->name('funcionEditarLicencia');
 
     Route::get('Licencias/reporte/exportarexcel','LicenciasController@generarReporteExcel')->name('excelLicencias');
+
+    Route::get('getmodalidades', function (\Illuminate\Http\Request $request){
+        return \DB::table('modalidad')->where('cod_tipo_licencia',$request->data)->get();
+    })->name('modalidades');
+
     /*FINALIZA LICENCIAS */
 
     /* INICIA  DENUNCIAS */

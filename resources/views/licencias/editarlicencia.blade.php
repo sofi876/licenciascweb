@@ -180,7 +180,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Modalidad</label>
                                         <div class="col-sm-7">
-                                            {{Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}}
+                                            <select name="cod_modalidad" id="cod_modalidad" tabindex="3" class="form-control" required>
+                                                <option>Seleccione...</option>
+                                            </select>
+                                            <!-- { {Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}} -->
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -285,6 +288,19 @@
             });
         });
     });
+    setTimeout(getModalidades, '300');
+    $("#cod_tipo_licencia").change(function () {
+        getModalidades();
+    });
+    function getModalidades() {
+        var dept = $("#cod_tipo_licencia").val();
+        $.get('{{route('modalidades')}}', {data: dept}, function (result) {
+            $('#cod_modalidad').html("");
+            $.each(result, function (i, value) {
+                $('#cod_modalidad').append($('<option>').text(value.des_modalidad).attr('value', value.cod_modalidad));
+            });
+        })
+    }
 
 </script>
 
