@@ -100,7 +100,7 @@ class LicenciasController extends Controller
             $eltipo= TipoLicencia::select('varias_modalidades')->where('cod_tipo_licencia',$request->cod_tipo_licencia)->first();
             if($eltipo->varias_modalidades == "1")
             {
-                $lista_mod=$request->cod_modalidad;
+                $lista_mod=$request->select_modalidad;
                 $txt2="";
                 foreach ($lista_mod as $mod){
                     //$txt2.="-".$reg;
@@ -113,7 +113,7 @@ class LicenciasController extends Controller
             else{
                 $detalle = New DetalleModalidad();
                 $detalle->cod_licencia = $next;
-                $detalle->cod_modalidad = $request->cod_modalidad;
+                $detalle->cod_modalidad = $request->select_modalidad;
                 $detalle->save();
             }
 
@@ -297,6 +297,7 @@ class LicenciasController extends Controller
             ->get();
         $det_modalidades = DetalleModalidad::where('cod_licencia',$licencia->cod_licencia)->get();
         $lista_mod=$det_modalidades->pluck('cod_modalidad')->toArray();
+        //$lista_mod_name=DB::table('modalidad')->pluck('des_modalidad', 'cod_modalidad')->whereIn('cod_modalidad', $lista_mod)->toArray();
 
         $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
         $tipospersona = DB::table('tipo_persona')->pluck('des_persona', 'cod_tipo_persona');
@@ -363,7 +364,7 @@ class LicenciasController extends Controller
             $eltipo= TipoLicencia::select('varias_modalidades')->where('cod_tipo_licencia',$request->cod_tipo_licencia)->first();
             if($eltipo->varias_modalidades == "1")
             {
-                $lista_mod=$request->cod_modalidad;
+                $lista_mod=$request->select_modalidad;
                 $txt2="";
                 foreach ($lista_mod as $mod){
                     //$txt2.="-".$reg;
@@ -376,7 +377,7 @@ class LicenciasController extends Controller
             else{
                 $detalle = New DetalleModalidad();
                 $detalle->cod_licencia = $licencia->cod_licencia;
-                $detalle->cod_modalidad = $request->cod_modalidad;
+                $detalle->cod_modalidad = $request->select_modalidad;
                 $detalle->save();
             }
 

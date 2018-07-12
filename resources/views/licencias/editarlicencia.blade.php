@@ -33,6 +33,7 @@
                 <!--      Wizard container        -->
                 <div class="wizard-container">
                     <div class="card wizard-card" data-color="azzure" id="wizard">
+
                     {{Form::model($licencia,['route'=>['funcionEditarLicencia', $licencia->cod_licencia], 'class'=>'form-horizontal', 'id'=>'editarlicencia'])}} <!-- -->
 
                         <!--<form action="" method=""> -->
@@ -180,7 +181,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Modalidad</label>
                                         <div class="col-sm-7">
-                                             <select name="cod_modalidad" id="cod_modalidad" tabindex="3" class="form-control" required >
+                                             <select name="select_modalidad" id="select_modalidad" tabindex="3" class="form-control" required >
                                                 <option>Seleccione...</option>
                                             </select>
                                         <!--{ {Form::select('cod_modalidad', $modalidades, $lista_mod,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}} -->
@@ -288,21 +289,33 @@
             });
         });
     });
-    setTimeout(getModalidades, '300');
     setTimeout(getMultiple, '300');
+    setTimeout(getModalidades, '300');
     $("#cod_tipo_licencia").change(function () {
-        getModalidades();
         getMultiple();
+        getModalidades();
     });
-    //$lista_mod
     function getModalidades() {
         var tipo = $("#cod_tipo_licencia").val();
+        var lista = <?php echo json_encode($lista_mod);?>;
         $.get('{{route('modalidades')}}', {data: tipo}, function (result) {
-            $('#cod_modalidad').html("");
+            $('#select_modalidad').html("");
+            var entro=0;
             $.each(result, function (i, value) {
-                $('#cod_modalidad').append($('<option>').text(value.des_modalidad).attr('value', value.cod_modalidad).selected());
+                entro=0;
+                if(lista.includes(value.cod_modalidad) ){
+                    entro=1;
+                }
+                if(entro == 1)
+                {
+                    $('#select_modalidad').append('<option selected="selected" value="'+value.cod_modalidad+'" >'+value.des_modalidad+'</option>');
+                }
+                else
+                {
+                    $('#select_modalidad').append('<option value="'+value.cod_modalidad+'" >'+value.des_modalidad+'</option>');
+                }
             });
-        })
+        });
     }
     function getMultiple() {
         //consultar si admite multiples
@@ -310,12 +323,12 @@
         $.get('{{route('multiples')}}', {data: tipo}, function (result) {
             if (result.esmultiple == "1")
             {
-                document.getElementById("cod_modalidad").multiple = true;
-                document.getElementById("cod_modalidad").setAttribute('name', 'cod_modalidad[]');
+                document.getElementById("select_modalidad").multiple = true;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad[]');
             }
             else {
-                document.getElementById("cod_modalidad").multiple = false;
-                document.getElementById("cod_modalidad").setAttribute('name', 'cod_modalidad');
+                document.getElementById("select_modalidad").multiple = false;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad');
             }
         })
 

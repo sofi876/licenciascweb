@@ -222,7 +222,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Modalidad</label>
                                             <div class="col-sm-7">
-                                                <select name="cod_modalidad" id="cod_modalidad" tabindex="3" class="form-control" required>
+                                                <select name="select_modalidad" id="select_modalidad" tabindex="3" class="form-control" required>
                                                     <option>Seleccione...</option>
                                                 </select>
                                                 <!--{ {Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}} -->
@@ -338,9 +338,9 @@
     function getModalidades() {
         var tipo = $("#cod_tipo_licencia").val();
         $.get('{{route('modalidades')}}', {data: tipo}, function (result) {
-            $('#cod_modalidad').html("");
+            $('#select_modalidad').html("");
             $.each(result, function (i, value) {
-                $('#cod_modalidad').append($('<option>').text(value.des_modalidad).attr('value', value.cod_modalidad));
+                $('#select_modalidad').append($('<option>').text(value.des_modalidad).attr('value', value.cod_modalidad));
             });
         })
     }
@@ -350,12 +350,12 @@
         $.get('{{route('multiples')}}', {data: tipo}, function (result) {
             if (result.esmultiple == "1")
             {
-                document.getElementById("cod_modalidad").multiple = true;
-                document.getElementById("cod_modalidad").setAttribute('name', 'cod_modalidad[]');
+                document.getElementById("select_modalidad").multiple = true;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad[]');
             }
             else {
-                document.getElementById("cod_modalidad").multiple = false;
-                document.getElementById("cod_modalidad").setAttribute('name', 'cod_modalidad');
+                document.getElementById("select_modalidad").multiple = false;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad');
             }
         })
 
