@@ -58,6 +58,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('getmodalidades', function (\Illuminate\Http\Request $request){
         return \DB::table('modalidad')->where('cod_tipo_licencia',$request->data)->get();
     })->name('modalidades');
+    Route::get('getmultiple', function (\Illuminate\Http\Request $request){
+        $result = [];
+        $eltipo= \DB::table('tipo_licencia')->select('varias_modalidades')->where('cod_tipo_licencia',$request->data)->first();
+        $result['esmultiple'] = $eltipo->varias_modalidades;
+        return $result;
+    })->name('multiples');
 
     /*FINALIZA LICENCIAS */
 

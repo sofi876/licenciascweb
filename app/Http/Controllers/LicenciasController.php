@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Excel;
+use App\DetalleModalidad;
+use App\TipoLicencia;
 //use PHPExcel_Worksheet_Drawing;
 
 class LicenciasController extends Controller
@@ -88,11 +90,32 @@ class LicenciasController extends Controller
             $caracteristica->cod_licencia = $next;
             $caracteristica->des_proyecto = $request->des_proyecto;
             $caracteristica->cod_tipo_licencia = $request->cod_tipo_licencia;
-            $caracteristica->cod_modalidad = $request->cod_modalidad;
+            //$caracteristica->cod_modalidad = $request->cod_modalidad;
             $caracteristica->cod_objeto = $request->cod_objeto;
             $caracteristica->cod_tipo_uso = $request->cod_tipo_uso;
             $caracteristica->num_pisos = $request->num_pisos;
             $caracteristica->save();
+
+            //registrar modalidades
+            $eltipo= TipoLicencia::select('varias_modalidades')->where('cod_tipo_licencia',$request->cod_tipo_licencia)->first();
+            if($eltipo->varias_modalidades == "1")
+            {
+                $lista_mod=$request->cod_modalidad;
+                $txt2="";
+                foreach ($lista_mod as $mod){
+                    //$txt2.="-".$reg;
+                    $detalle = New DetalleModalidad();
+                    $detalle->cod_licencia = $next;
+                    $detalle->cod_modalidad = $mod;
+                    $detalle->save();
+                }
+            }
+            else{
+                $detalle = New DetalleModalidad();
+                $detalle->cod_licencia = $next;
+                $detalle->cod_modalidad = $request->cod_modalidad;
+                $detalle->save();
+            }
 
             //Registrar Trazabilidad
             $auditoria = new AuditoriaLicencia();
@@ -272,17 +295,22 @@ class LicenciasController extends Controller
         $predios = Predio::select(['cod_licencia','barrio','estrato','cedula_catastral','cod_informacion','viaprincipal','numerovia','numero1','numero2','complemento','matricula'])
             ->where('cod_licencia',$licencia->cod_licencia)
             ->get();
+        $det_modalidades = DetalleModalidad::where('cod_licencia',$licencia->cod_licencia)->get();
+        $lista_mod=$det_modalidades->pluck('cod_modalidad')->toArray();
+
         $estados = DB::table('estado_licencia')->pluck('des_estado_licencia', 'cod_estado');
         $tipospersona = DB::table('tipo_persona')->pluck('des_persona', 'cod_tipo_persona');
         $tiposlicencia = DB::table('tipo_licencia')->pluck('des_licencia', 'cod_tipo_licencia');
         $modalidades = DB::table('modalidad')->pluck('des_modalidad', 'cod_modalidad');
         $objetos = DB::table('objeto_tramite')->pluck('des_objeto', 'cod_objeto');
         $tiposuso = DB::table('tipo_uso')->pluck('des_uso', 'cod_tipo_uso');
-        return view('licencias.editarlicencia', compact(['licencia','estados','tipospersona','tiposlicencia','modalidades','objetos','tiposuso','predios']));
+        return view('licencias.editarlicencia', compact(['licencia','estados','tipospersona','tiposlicencia','modalidades','objetos','tiposuso','predios','lista_mod']));
     }
     public function funcionEditarLicencia(Request $request, $id)
     {
         $result = [];
+        $vector= [];
+        $txt="";
         \DB::beginTransaction();
         try {
             $validator = \Validator::make($request->all(), [
@@ -323,11 +351,40 @@ class LicenciasController extends Controller
             $caracteristica = Caracteristicas::where('cod_licencia',$licencia->cod_licencia)->first();
             $caracteristica->des_proyecto = $request->des_proyecto;
             $caracteristica->cod_tipo_licencia = $request->cod_tipo_licencia;
-            $caracteristica->cod_modalidad = $request->cod_modalidad;
+            //$caracteristica->cod_modalidad = $request->cod_modalidad;
             $caracteristica->cod_objeto = $request->cod_objeto;
             $caracteristica->cod_tipo_uso = $request->cod_tipo_uso;
             $caracteristica->num_pisos = $request->num_pisos;
             $caracteristica->save();
+
+            //eliminar las modalidades anteriores
+            DetalleModalidad::where('cod_licencia',$licencia->cod_licencia)->delete();
+            //registrar modalidades
+            $eltipo= TipoLicencia::select('varias_modalidades')->where('cod_tipo_licencia',$request->cod_tipo_licencia)->first();
+            if($eltipo->varias_modalidades == "1")
+            {
+                $lista_mod=$request->cod_modalidad;
+                $txt2="";
+                foreach ($lista_mod as $mod){
+                    //$txt2.="-".$reg;
+                    $detalle = New DetalleModalidad();
+                    $detalle->cod_licencia = $licencia->cod_licencia;
+                    $detalle->cod_modalidad = $mod;
+                    $detalle->save();
+                }
+            }
+            else{
+                $detalle = New DetalleModalidad();
+                $detalle->cod_licencia = $licencia->cod_licencia;
+                $detalle->cod_modalidad = $request->cod_modalidad;
+                $detalle->save();
+            }
+
+
+            /*foreach ($request->cod_modalidad as $det) {
+                $txt.="-".$det;
+            }
+            dd($txt);*/
 
             //Registrar Trazabilidad
             $auditoria = new AuditoriaLicencia();

@@ -180,10 +180,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Modalidad</label>
                                         <div class="col-sm-7">
-                                            <select name="cod_modalidad" id="cod_modalidad" tabindex="3" class="form-control" required>
+                                             <select name="cod_modalidad" id="cod_modalidad" tabindex="3" class="form-control" required >
                                                 <option>Seleccione...</option>
                                             </select>
-                                            <!-- { {Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}} -->
+                                        <!--{ {Form::select('cod_modalidad', $modalidades, $lista_mod,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}} -->
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -289,17 +289,36 @@
         });
     });
     setTimeout(getModalidades, '300');
+    setTimeout(getMultiple, '300');
     $("#cod_tipo_licencia").change(function () {
         getModalidades();
+        getMultiple();
     });
+    //$lista_mod
     function getModalidades() {
-        var dept = $("#cod_tipo_licencia").val();
-        $.get('{{route('modalidades')}}', {data: dept}, function (result) {
+        var tipo = $("#cod_tipo_licencia").val();
+        $.get('{{route('modalidades')}}', {data: tipo}, function (result) {
             $('#cod_modalidad').html("");
             $.each(result, function (i, value) {
-                $('#cod_modalidad').append($('<option>').text(value.des_modalidad).attr('value', value.cod_modalidad));
+                $('#cod_modalidad').append($('<option>').text(value.des_modalidad).attr('value', value.cod_modalidad).selected());
             });
         })
+    }
+    function getMultiple() {
+        //consultar si admite multiples
+        var tipo = $("#cod_tipo_licencia").val();
+        $.get('{{route('multiples')}}', {data: tipo}, function (result) {
+            if (result.esmultiple == "1")
+            {
+                document.getElementById("cod_modalidad").multiple = true;
+                document.getElementById("cod_modalidad").setAttribute('name', 'cod_modalidad[]');
+            }
+            else {
+                document.getElementById("cod_modalidad").multiple = false;
+                document.getElementById("cod_modalidad").setAttribute('name', 'cod_modalidad');
+            }
+        })
+
     }
 
 </script>
