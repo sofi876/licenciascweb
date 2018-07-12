@@ -87,4 +87,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('denuncias/predios/adicionar/{id}', 'PrediosController@funcionEliminarPredio')->name('funcionEliminarPredio');
     /*FINALIZA PREDIOS*/
 
+    /*INICIA WS*/
+    Route::get('wslicencia/{id}',"LicenciasController@wsConsultarLicencia")->name('WSLicencia');
+    /*FINALIZA WS*/
+
 });

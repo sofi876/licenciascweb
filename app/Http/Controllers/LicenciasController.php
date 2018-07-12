@@ -527,4 +527,48 @@ class LicenciasController extends Controller
             })
             ->make(true);
     }
+    public function wsConsultarLicencia($id)
+    {
+        $result = [];
+        $licencia = LicenciaConstruccion::join('informacion_predio', 'licencia_construccion.cod_licencia', 'informacion_predio.cod_licencia')
+            ->join('datos_solicitante', 'licencia_construccion.cod_licencia', 'datos_solicitante.cod_licencia')
+            ->join('caracteristicas_licencia', 'licencia_construccion.cod_licencia', 'caracteristicas_licencia.cod_licencia')
+            ->where('licencia_construccion.num_licencia',$id)
+            ->select(['licencia_construccion.*', 'datos_solicitante.documento', 'datos_solicitante.nombres', 'datos_solicitante.apellidos', 'datos_solicitante.cod_tipo_persona', 'informacion_predio.viaprincipal', 'informacion_predio.barrio', 'informacion_predio.numerovia', 'informacion_predio.numero1', 'informacion_predio.numero2', 'informacion_predio.complemento', 'informacion_predio.matricula', 'informacion_predio.estrato', 'informacion_predio.cedula_catastral', 'informacion_predio.cod_informacion', 'caracteristicas_licencia.des_proyecto', 'caracteristicas_licencia.cod_tipo_licencia', 'caracteristicas_licencia.cod_modalidad', 'caracteristicas_licencia.cod_objeto', 'caracteristicas_licencia.cod_tipo_uso', 'caracteristicas_licencia.num_pisos'])
+            ->first();
+        if(!$licencia == null) {
+            $predios = Predio::select(['cod_licencia', 'barrio', 'estrato', 'cedula_catastral', 'cod_informacion', 'viaprincipal', 'numerovia', 'numero1', 'numero2', 'complemento', 'matricula'])
+                ->where('cod_licencia', $licencia->cod_licencia)
+                ->get();
+            $txt_predios = "";
+            foreach ($predios as $predio) {
+                if ($txt_predios != "")
+                    $txt_predios .= "|";
+                $txt_predios .= $predio->viaprincipal . " " . $predio->numerovia . " # " . $predio->numero1 . " - " . $predio->numero2 . " " . $predio->complemento . ";" . $predio->barrio . ";" . $predio->matricula;
+            }
+            $det_modalidades = DetalleModalidad::join('modalidad', 'detalle_modalidades.cod_modalidad', 'modalidad.cod_modalidad')
+                ->where('detalle_modalidades.cod_licencia', $licencia->cod_licencia)
+                ->select('modalidad.des_modalidad')
+                ->get();
+            $txt_modalidades = "";
+            foreach ($det_modalidades as $det_modalidade) {
+                if ($txt_modalidades != "")
+                    $txt_modalidades .= "|";
+                $txt_modalidades .= $det_modalidade->des_modalidad;
+            }
+            $estado = DB::table('estado_licencia')->where('cod_estado', $licencia->cod_estado)->first();
+            $tipolicencia = DB::table('tipo_licencia')->where('cod_tipo_licencia', $licencia->cod_tipo_licencia)->first();
+
+            $result['num_licencia'] = $licencia->num_licencia;
+            $result['fecha_ejecutoria'] = $licencia->fecha_ejecutoria;
+            $result['fecha_vencimiento'] = $licencia->fecha_vence;
+            $result['estado'] = $estado->des_estado_licencia;
+            $result['tipo_licencia'] = $tipolicencia->des_licencia;
+            $result['modalidades'] = $txt_modalidades;
+            $result['predios'] = $txt_predios;
+        }
+        else
+            $result['resultado'] = "No existe la licencia";
+        return $result;
+    }
 }
