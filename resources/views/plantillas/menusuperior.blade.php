@@ -23,7 +23,7 @@
                     @if((Auth::User()->tipo) == "1" || (Auth::User()->tipo) == "2")
                     <li><a href="{{route('crearlicencia')}}">Ingresar</a></li>
                     @endif
-                    <li><a href="{{route('consultarLicencias')}}">Consultar</a></li>
+                    <!-- <li><a href="{{route('consultarLicencias')}}">Consultar</a></li> -->
                     <li><a href="{{route('consultarLicenciasFiltro')}}">Consultar por filtro</a></li>
                 </ul>
             </li>
@@ -37,7 +37,7 @@
                  </ul>
              </li>
                  @endif
-             @if((Auth::User()->tipo) == "1" )
+             @if((Auth::User()->tipo) == "1" || (Auth::User()->tipo) == "4" || (Auth::User()->tipo) == "2" )
                  <li class="has-submenu">
                      <a href="#"> <span><i class="ti-files"></i></span><span> Denuncias </span> </a>
                      <ul class="submenu">

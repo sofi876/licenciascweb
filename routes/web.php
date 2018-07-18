@@ -34,7 +34,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('usuarios/listaf', 'usuariosController@gridConsultarUsuarios')->name('gridConsultarUsuarios');
     route::get('/EditarUsuario/{id}', 'usuariosController@verEditarUsuario')->name('editarUsuario');
     route::post('Usuarios/editar/{id}', 'usuariosController@funcionEditarUsuario')->name('funcionEditarUsuario');
-//Route::get('/logout', 'LoginController@logout')->name('logout');
     /* FINALIZA GESTIÓN DE USUARIOS*/
 
     /* INICIA LICENCIAS */
@@ -87,8 +86,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('denuncias/predios/adicionar/{id}', 'PrediosController@funcionEliminarPredio')->name('funcionEliminarPredio');
     /*FINALIZA PREDIOS*/
 
-    /*INICIA WS*/
-    Route::get('wslicencia/{id}',"LicenciasController@wsConsultarLicencia")->name('WSLicencia');
-    /*FINALIZA WS*/
-
 });
+/*INICIA WS*/
+Route::get('wslicencia/{id}',"LicenciasController@wsConsultarLicencia")->name('WSConsultarLicencia');
+Route::post('wscreardenuncia/crear','DenunciasController@wsCrearDenuncia');//->name('WSCrearDenuncia')
+/*FINALIZA WS*/

@@ -86,6 +86,44 @@ class DenunciasController extends Controller
             \DB::rollBack();
         }
         return $result;
+    }
+    public function wsCrearDenuncia(Request $request)
+    {
+        $result = [];
+
+       //  \DB::beginTransaction();
+        try {
+            $validator = \Validator::make($request->all(), [
+                'imagen' => 'required',
+                'georeferencia' => 'required',
+                'des_denuncia' => 'required',
+            ]);
+
+            $denuncia = new Denuncias();
+
+            $licencia = LicenciaConstruccion::where('num_licencia',$request->num_licencia)->first();
+            if(!$licencia == null)
+                $denuncia->cod_licencia = $licencia->cod_licencia;
+
+            $denuncia->imagen = $request->imagen;
+            $denuncia->georeferencia = $request->georeferencia;
+            $denuncia->des_denuncia = $request->des_denuncia." (número de licencia: ".$request->num_licencia.")";
+            $denuncia->cod_estado_denuncia = "1";
+            $denuncia->nueva = "1";
+            $denuncia->fecha = Carbon::now();
+            $denuncia->save();
+
+            \DB::commit();
+            $result['estado'] = true;
+            $result['mensaje'] = 'La denuncia ha sido registrada satisfactoriamente';
+        } catch (\Exception $exception) {
+            $result['estado'] = false;
+            $result['mensaje'] = 'No fue posible registrar la denuncia ' . $exception->getMessage();//. $exception->getMessage()
+            \DB::rollBack();
+
+        }
+        return ['resultado' => $result];
+        //return $result;
 
     }
 }
