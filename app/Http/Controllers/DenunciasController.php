@@ -117,7 +117,7 @@ class DenunciasController extends Controller
             $denuncia->fecha = Carbon::now();
             $denuncia->save();
 
-            //Enviar Email
+            //Enviar Email Notificación
             $receivers = User::where('notificar_denuncia','1')->get();//pluck('email')->
             foreach ($receivers as $destino)
             {

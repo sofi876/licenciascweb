@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\AuditoriaLicencia;
 use App\EstadosLicencia;
 use App\LicenciaConstruccion;
+use App\NotificacionLicencia;
 use App\Solicitante;
 use App\Predio;
 use App\Caracteristicas;
@@ -17,6 +18,8 @@ use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Excel;
 use App\DetalleModalidad;
 use App\TipoLicencia;
+use App\Mail\NotificarLicencia;
+use Illuminate\Support\Facades\Mail;
 
 //use PHPExcel_Worksheet_Drawing;
 
@@ -130,6 +133,18 @@ class LicenciasController extends Controller
             \DB::commit();
             $result['estado'] = true;
             $result['mensaje'] = 'La licencia ha sido creada satisfactoriamente';
+            //Enviar Email Notificación
+            $receivers = User::where('notificar_licencia','1')->get();//pluck('email')->
+            foreach ($receivers as $destino)
+            {
+                Mail::to($destino->email)->send(new NotificarLicencia($licencia));
+                $notificaciond = new NotificacionLicencia();
+                $notificaciond->enviado = "1";
+                $notificaciond->cod_licencia = $licencia->cod_licencia;
+                $notificaciond->cod_usuario = $destino->id;
+                $notificaciond->fecha = Carbon::now();
+                $notificaciond->save();
+            }
         } catch (\Exception $exception) {
             $result['estado'] = false;
             $result['mensaje'] = 'No fue posible crear la licencia ' . $exception->getMessage();//. $exception->getMessage()
