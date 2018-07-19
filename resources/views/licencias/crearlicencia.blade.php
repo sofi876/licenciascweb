@@ -96,7 +96,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Antecedentes</label>
                                             <div class="col-sm-7">
-                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "tabindex"=>"7",'id'=>'antecedentes'])}}
                                             </div>
                                         </div>
                                     </div>
@@ -139,38 +139,65 @@
                                          </div>-->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Dirección:</label>
+                                            <div class="col-sm-2">
+                                                <select class="form-control obtener" id="viaprincipal" tabindex="1" name="viaprincipal">
+                                                    <option value="AP">AUTOPISTA</option>
+                                                    <option value="AV">AVENIDA</option>
+                                                    <option value="AC">AVENIDA CALLE</option>
+                                                    <option value="AK">AVENIDA CARRERA</option>
+                                                    <option value="CL" selected="selected">CALLE</option>
+                                                    <option value="CRA">CARRERA</option>
+                                                    <option value="CIRC">CIRCUNVALAR</option>
+                                                    <option value="DG">DIAGONAL</option>
+                                                    <option value="MANZ">MANZANA</option>
+                                                    <option value="TV">TRANSVERSAL</option>
+                                                    <option value="VIA">VIA</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <input type="text" id="numerovia" name="numerovia" tabindex="2" class="form-control obtener"
+                                                       data-parsley-type="alphanum" maxlength="5" required>
+                                            </div>
+                                            <label class="col-sm-1 control-label">#</label>
+                                            <div class="col-sm-1">
+                                                <input type="text" id="numero1" name="numero1" tabindex="3" class="form-control obtener"
+                                                       data-parsley-type="alphanum" maxlength="5" required>
+                                            </div>
+                                            <label class="col-sm-1 control-label">-</label>
+                                            <div class="col-sm-1">
+                                                <input type="text" id="numero2" name="numero2" tabindex="4" class="form-control obtener"
+                                                       data-parsley-type="number"  maxlength="5" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Complemento:</label>
                                             <div class="col-sm-7">
-                                            {{Form::text('direccion', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'direccion'])}} <!-- "data-parsley-type"=>"number"] -->
+                                                <input type="text" id="complemento" name="complemento" tabindex="5" class="form-control obtener"
+                                                       data-parsley-pattern="^[a-zA-Z0-9]+(\s*[a-zA-Z0-9]*)*[a-zA-Z0-9]+$"  maxlength="60">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Barrio:</label>
                                             <div class="col-sm-7">
-                                            {{Form::text('barrio', null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Manzana:</label>
-                                            <div class="col-sm-7">
-                                            {{Form::text('manzana', null ,['class'=>'form-control', "tabindex"=>"3",'id'=>'manzana'])}} <!-- "data-parsley-type"=>"number"] -->
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label">Lote:</label>
-                                            <div class="col-sm-7">
-                                            {{Form::text('lote', null ,['class'=>'form-control', "tabindex"=>"4",'id'=>'lote'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            {{Form::text('barrio', null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Estrato:</label>
                                             <div class="col-sm-7">
-                                            {{Form::number('estrato', null ,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'estrato','min'=>'0','max'=>'6'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            {{Form::number('estrato', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'estrato','min'=>'0','max'=>'6'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Cédula Catastral:</label>
                                             <div class="col-sm-7">
-                                            {{Form::text('cedula_catastral', null ,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cedula_catastral'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            {{Form::text('cedula_catastral', null ,['class'=>'form-control', "tabindex"=>"8",'id'=>'cedula_catastral'])}} <!-- "data-parsley-type"=>"number"] -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Matricula Inmobiliaria:</label>
+                                            <div class="col-sm-7">
+                                            {{Form::text('matricula', null ,['class'=>'form-control', "required", "tabindex"=>"9",'id'=>'matricula'])}} <!-- "data-parsley-type"=>"number"] -->
                                             </div>
                                         </div>
                                     </div>
@@ -195,7 +222,10 @@
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Modalidad</label>
                                             <div class="col-sm-7">
-                                                {{Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}}
+                                                <select name="select_modalidad" id="select_modalidad" tabindex="3" class="form-control" required>
+                                                    <option>Seleccione...</option>
+                                                </select>
+                                                <!--{ {Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}} -->
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -299,6 +329,37 @@
             });
         });
     });
+    setTimeout(getModalidades, '300');
+    setTimeout(getMultiple, '300');
+    $("#cod_tipo_licencia").change(function () {
+        getModalidades();
+        getMultiple();
+    });
+    function getModalidades() {
+        var tipo = $("#cod_tipo_licencia").val();
+        $.get('{{route('modalidades')}}', {data: tipo}, function (result) {
+            $('#select_modalidad').html("");
+            $.each(result, function (i, value) {
+                $('#select_modalidad').append($('<option>').text(value.des_modalidad).attr('value', value.cod_modalidad));
+            });
+        })
+    }
+    function getMultiple() {
+        //consultar si admite multiples
+        var tipo = $("#cod_tipo_licencia").val();
+        $.get('{{route('multiples')}}', {data: tipo}, function (result) {
+            if (result.esmultiple == "1")
+            {
+                document.getElementById("select_modalidad").multiple = true;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad[]');
+            }
+            else {
+                document.getElementById("select_modalidad").multiple = false;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad');
+            }
+        })
+
+    }
 
 </script>
 

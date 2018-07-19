@@ -16,6 +16,7 @@
             <div class="col-md-12">
                 <div class="card" >
                     <div class="card-header" align="center"><h2>Lista de Usuarios</h2></div>
+                    <input type="button" class="btn btn-success" value="Actualizar" onClick="location.reload();" />
                     <p><b>Nota:</b> Puede filtrar la búsqueda por el nombre o el email.</p>
                     <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
                     <div class="table-responsive m-b-12">
@@ -23,20 +24,20 @@
                         <table id="datatable" name="datatable" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Email</th>
                                     <th>Tipo</th>
-                                    <th>Notificar</th>
+                                    <th>Notificar Licencia</th>
+                                    <th>Notificar Denuncia</th>
                                     <th>Activo</th>
                                     <th>Editar</th>
                                 </tr>
                                 </thead>
                             <tfoot>
                             <tr>
-                                <th>Id</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -82,7 +83,7 @@
                     "type":"get"
                 },
                 columns: [
-                    {data: 'id', name: 'id'},
+                    //{data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
                     {data: 'email', name: 'email'},
                     {
@@ -94,6 +95,26 @@
                             }
                             else if (data == '2') {
                                 return 'Funcionario';
+                            } else if (data == '3') {
+                                return 'Consultas';
+                                }else if (data == '4') {
+                                    return 'Denuncias';
+                                }else {
+                                    return 'Error'
+                                }
+
+                        },
+                        searchable: false
+                    },
+                    {
+                        data: 'notificar_licencia',
+                        name: 'notificar_licencia',
+                        render: function (data) {
+                            if (data == '0') {
+                                return 'No';
+                            }
+                            else if (data == '1') {
+                                return 'Si';
                             } else {
                                 return 'Error'
                             }
@@ -101,8 +122,8 @@
                         searchable: false
                     },
                     {
-                        data: 'notificar',
-                        name: 'notificar',
+                        data: 'notificar_denuncia',
+                        name: 'notificar_denuncia',
                         render: function (data) {
                             if (data == '0') {
                                 return 'No';

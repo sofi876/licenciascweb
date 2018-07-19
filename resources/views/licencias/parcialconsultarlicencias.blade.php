@@ -1,4 +1,24 @@
-                    <div class="row">
+<!--  <input type="button" class="btn btn-success" value="Actualizar" onClick="location.reload();" />-->
+<div class="row">
+    <div class="col-sm-12">
+        <h5>Exportar</h5>
+        <div class="card-box widget-inline">
+            <div class="row">
+                <div class="widget-inline-box text-right">
+                    <strong>Exportar: </strong>
+                    <div class="btn-group">
+                         <a href="{{route('excelLicencias',['lista_licencias'=>$lista_licencias])}}"
+                           class="btn btn-sm btn-custom" data-toggle="tooltip" title="EXCEL">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+
                         <div class="col-sm-12">
                     <p><b>Nota:</b> Utilice las celdas inferiores de cada columna para filtrar los resultados.</p>
                         </div>
@@ -9,7 +29,7 @@
                         <table id="datatable" name="datatable" class="table table-striped table-bordered">
                             <thead>
                             <tr>
-                                <th>Ver / Editar</th>
+                                <th>Ver</th>
                                 <th>Número de Licencia</th>
                                 <th>Radicación</th>
                                 <th>Expedición</th>
@@ -60,7 +80,7 @@
                         d.estado = "{{$estado}}";
                         d.cedula = "{{$cedula}}";
                     }
-                //"data": {filtro: "1" ,_token: '{{csrf_token()}}', numlicencia: "6666"}
+                //"data": {filtro: "1" ,_token: '{ {csrf_token()}}', numlicencia: "6666"}
                     //data: {'filtro': filtro},
                 },
                 columns: [

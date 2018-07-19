@@ -1,4 +1,4 @@
-@extends('plantillas.general')
+@extends('plantillas.sinmenu')
 @section('styles')
     <link href="{{asset('plugins/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('plugins/datatables/buttons.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
@@ -11,41 +11,38 @@
 @section('contenido')
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card" >
-                    <div class="card-header" align="center"><h2>Consultar Licencias</h2></div>
-                    <input type="button" class="btn btn-success" value="Actualizar" onClick="location.reload();" />
-                    <p><b>Nota:</b> Utilice las celdas inferiores de cada columna para filtrar los resultados.</p>
-                    <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
-                    <div class="table-responsive m-b-12">
+        <br>
+        <div class="card-box widget-inline">
+            <div class="row">
 
-                        <table id="datatable" name="datatable" class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th>Ver / Editar</th>
-                                <th>Número de Licencia</th>
-                                <th>Radicación</th>
-                                <th>Expedición</th>
-                                <th>Ejecutoría</th>
-                                <th>Vencimiento</th>
-                                <th>Estado</th>
-                                <th>Antecedentes</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                            <tr>
-                                <th></th>
-                                <th>Número de Licencia</th>
-                                <th>Radicación</th>
-                                <th>Expedición</th>
-                                <th>Ejecutoría</th>
-                                <th>Vencimiento</th>
-                                <th>Estado</th>
-                                <th>Antecedentes</th>
-                            </tr>
-                            </tfoot>
-                        </table>
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        <div class="card" >
+                            <div class="card-header" align="center"><h2>Trazabilidad de la Licencia número {{$licencia->num_licencia}}</h2></div>
+                            <input type="button" class="btn btn-success" value="Actualizar" onClick="location.reload();" />
+                            <p><b>Nota:</b> Utilice las celdas inferiores de cada columna para filtrar los resultados.</p>
+                            <!--<h4><a href="{ {route('crearUsuario')}}">Crear nuevo usuario</a> </h4><br> -->
+                            <div class="table-responsive m-b-12">
+
+                                <table id="datatable" name="datatable" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
+                                        <th>Usuario</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
+                                        <th>Usuario</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,18 +77,19 @@
                     "url": "{!!route('datatable_es')!!}"
                 },
                 ajax: {
-                    url: "{!!route('gridConsultarLicencias')!!}",
-                    "type":"get"
+                    url: "{!!route('gridConsultarHistorial')!!}",
+                    "type": "POST",
+                    'headers': {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    'data': function (d) {
+                        d.codlicencia = "{{$licencia->cod_licencia}}";
+                    }
                 },
                 columns: [
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'num_licencia', name: 'num_licencia'},
-                    {data: 'fecha_radicacion', name: 'fecha_radicacion'},
-                    {data: 'fecha_expedicion', name: 'fecha_expedicion'},
-                    {data: 'fecha_ejecutoria', name: 'fecha_ejecutoria'},
-                    {data: 'fecha_vence', name: 'fecha_vence'},
-                    {data: 'estado', name: 'estado'},
-                    {data: 'antecedentes', name: 'antecedentes'}
+                    {data: 'fecha', name: 'fecha'},
+                    {data: 'tipo', name: 'tipo'},
+                    {data: 'usuario', name: 'usuario'}
                 ],
                 initComplete: function () {
                     this.api().columns().every(function () {
@@ -108,6 +106,7 @@
             });
         });
         $.fn.dataTable.ext.errMode = 'throw';
+
     </script>
 
 @endsection

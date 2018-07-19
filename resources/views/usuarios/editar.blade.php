@@ -50,21 +50,27 @@
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Tipo') }}</label>
                                 <div class="col-md-6">
-                                    {{Form::select('tipo', ['1' => 'Administrador', '2' => 'Funcionario'], null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'tipo','value'=>old('tipo')])}}
+                                    {{Form::select('tipo', ['1' => 'Administrador', '2' => 'Funcionario', '3' => 'Consultas', '4' => 'Denuncias'], null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'tipo','value'=>old('tipo')])}}
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Notificar denuncias') }}</label>
+                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Notificar licencia nueva') }}</label>
                                 <div class="col-md-6">
-                                    {{Form::select('notificar', ['0' => 'No', '1' => 'Si'], null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'notificar','value'=>old('tipo')])}}
+                                    {{Form::select('notificar_licencia', ['0' => 'No', '1' => 'Si'], null,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'notificar_licencia','value'=>old('notificar_licencia')])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Notificar denuncia nueva') }}</label>
+                                <div class="col-md-6">
+                                    {{Form::select('notificar_denuncia', ['0' => 'No', '1' => 'Si'], null,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'notificar_denuncia','value'=>old('notificar_denuncia')])}}
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Estado') }}</label>
                                 <div class="col-md-6">
-                                    {{Form::select('activo', ['1' => 'Activo', '0' => 'Inactivo'], null,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'activo','value'=>old('activo')])}}
+                                    {{Form::select('activo', ['1' => 'Activo', '0' => 'Inactivo'], null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'activo','value'=>old('activo')])}}
                                 </div>
                             </div>
 

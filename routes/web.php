@@ -34,10 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('usuarios/listaf', 'usuariosController@gridConsultarUsuarios')->name('gridConsultarUsuarios');
     route::get('/EditarUsuario/{id}', 'usuariosController@verEditarUsuario')->name('editarUsuario');
     route::post('Usuarios/editar/{id}', 'usuariosController@funcionEditarUsuario')->name('funcionEditarUsuario');
-//Route::get('/logout', 'LoginController@logout')->name('logout');
     /* FINALIZA GESTIÓN DE USUARIOS*/
 
-    /* INICIA CREACION LICENCIAS */
+    /* INICIA LICENCIAS */
     route::get('crearlicencia', 'LicenciasController@viewCrearLicencia')->name('crearlicencia');
     route::get('framecrearlicencia', 'LicenciasController@frameCrearLicencia')->name('framecrearlicencia');
     route::post('licencias/crear', 'LicenciasController@funcionCrearLicencia')->name('funcioncrearlicencia');
@@ -53,6 +52,42 @@ Route::group(['middleware' => 'auth'], function () {
     route::get('frameeditarlicencia/{id}', 'LicenciasController@frameEditarLicencia')->name('frameeditarlicencia');
     route::post('Licencias/editar/{id}', 'LicenciasController@funcionEditarLicencia')->name('funcionEditarLicencia');
 
-    /*FINALIZA CREACION LICENCIAS */
+    Route::get('Licencias/reporte/exportarexcel','LicenciasController@generarReporteExcel')->name('excelLicencias');
+
+    Route::get('getmodalidades', function (\Illuminate\Http\Request $request){
+        return \DB::table('modalidad')->where('cod_tipo_licencia',$request->data)->get();
+    })->name('modalidades');
+    Route::get('getmultiple', function (\Illuminate\Http\Request $request){
+        $result = [];
+        $eltipo= \DB::table('tipo_licencia')->select('varias_modalidades')->where('cod_tipo_licencia',$request->data)->first();
+        $result['esmultiple'] = $eltipo->varias_modalidades;
+        return $result;
+    })->name('multiples');
+
+    /*FINALIZA LICENCIAS */
+
+    /* INICIA  DENUNCIAS */
+    Route::get('denuncias/filtro','DenunciasController@verFiltroDenuncias')->name('consultarDenunciasFiltro');
+    Route::post('denuncias/filtroxfecha','DenunciasController@consultarxFecha')->name('consultarxFecha');
+    Route::post('denuncias/listafiltro', 'DenunciasController@gridConsultarDenunciasFiltro')->name('gridConsultarDenunciasFiltro');
+
+    Route::get('denuncias/ver/{id}', 'DenunciasController@viewEditarDenuncia')->name('editarDenuncia');
+    Route::post('denuncias/editar/{id}', 'DenunciasController@funcionEditarDenuncia')->name('funcionEditarDenuncia');
+    /*FINALIZA DENUNCIAS*/
+    /* INICIA  TRAZABILIDAD LICENCIA */
+    Route::get('Licencias/trazabilidad/{id}', 'LicenciasController@viewHistorial')->name('consultarHistorial');
+    Route::post('Licencias/trazabilidad/lista', 'LicenciasController@gridHistorial')->name('gridConsultarHistorial');
+    /* FIN TRAZABILIDAD LICENCIA */
+
+    /* INICIA  PREDIOS */
+    Route::get('denuncias/predios/gestionar/{id}', 'PrediosController@viewGestionarPredios')->name('gestionarPredios');
+    Route::post('denuncias/predios/lista', 'PrediosController@gridConsultarPredios')->name('gridConsultarPredios');
+    Route::post('denuncias/predios/adicionar/{id}', 'PrediosController@funcionAdicionarPredio')->name('funcionAdicionarPredio');
+    Route::get('denuncias/predios/adicionar/{id}', 'PrediosController@funcionEliminarPredio')->name('funcionEliminarPredio');
+    /*FINALIZA PREDIOS*/
 
 });
+/*INICIA WS*/
+Route::get('wslicencia/{id}',"LicenciasController@wsConsultarLicencia")->name('WSConsultarLicencia');
+Route::post('wscreardenuncia/crear','DenunciasController@wsCrearDenuncia');//->name('WSCrearDenuncia')
+/*FINALIZA WS*/

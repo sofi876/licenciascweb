@@ -33,6 +33,7 @@
                 <!--      Wizard container        -->
                 <div class="wizard-container">
                     <div class="card wizard-card" data-color="azzure" id="wizard">
+
                     {{Form::model($licencia,['route'=>['funcionEditarLicencia', $licencia->cod_licencia], 'class'=>'form-horizontal', 'id'=>'editarlicencia'])}} <!-- -->
 
                         <!--<form action="" method=""> -->
@@ -97,7 +98,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Antecedentes</label>
                                         <div class="col-sm-7">
-                                            {{Form::text('antecedentes', null ,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                            {{Form::text('antecedentes', null ,['class'=>'form-control', "tabindex"=>"7",'id'=>'antecedentes'])}}
                                         </div>
                                     </div>
                                 </div>
@@ -135,45 +136,23 @@
                             </div>
                             <div class="tab-pane" id="paso3">
                                 <div class="row">
-                                    <!-- <div class="col-sm-12">
-                                         <h4 class="info-text"></h4>
-                                     </div>-->
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Dirección:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('direccion', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'direccion'])}} <!-- "data-parsley-type"=>"number"] -->
+                                    <h3>Predios Asociados</h3>
+                                    <table border="0" width="40%" align="center">
+                                    <tr><td><input type="button" class="btn btn-success" value="Actualizar" onClick="location.reload();" /></td>
+                                        <td><a href="{{route('gestionarPredios',$licencia->cod_licencia)}}" target="_blank"><input type="button" value="Gestionar Predios" class="btn btn-default"/></a></td></tr>
+                                    </table><br>
+                                    <!-- <div class="btn-block">  -->
+                                    <?php $cont=1; ?>
+                                    @foreach($predios as $predio)
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label">Dirección {{$cont}}:</label>
+                                            <div class="col-sm-7">
+                                            {{$predio->viaprincipal." ".$predio->numerovia." # ".$predio->numero1. " - ".$predio->numero2." ".$predio->complemento}}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Barrio:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('barrio', null,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'barrio'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Manzana:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('manzana', null ,['class'=>'form-control', "tabindex"=>"3",'id'=>'manzana'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Lote:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('lote', null ,['class'=>'form-control', "tabindex"=>"4",'id'=>'lote'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Estrato:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::number('estrato', null ,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'estrato','min'=>'0','max'=>'6'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">Cédula Catastral:</label>
-                                        <div class="col-sm-7">
-                                        {{Form::text('cedula_catastral', null ,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cedula_catastral'])}} <!-- "data-parsley-type"=>"number"] -->
-                                        </div>
-                                    </div>
+                                        <?php $cont++; ?>
+                                        @endforeach
+
                                 </div>
                             </div>
                             <div class="tab-pane" id="paso4">
@@ -181,6 +160,12 @@
                                     <!-- <div class="col-sm-12">
                                          <h4 class="info-text"></h4>
                                      </div>-->
+                                    <div class="right">
+                                        <table border="0" width="40%" align="center">
+                                            <tr><td><a href="{{route('consultarHistorial',$licencia->cod_licencia)}}" target="_blank"><input type="button" value="Consultar Trazabilidad" class="btn btn-default"/></a></td></tr>
+                                        </table>
+                                    </div>
+                                    <br>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Descripción del proyecto:</label>
                                         <div class="col-sm-7">
@@ -196,7 +181,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Modalidad</label>
                                         <div class="col-sm-7">
-                                            {{Form::select('cod_modalidad', $modalidades,null,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}}
+                                             <select name="select_modalidad" id="select_modalidad" tabindex="3" class="form-control" required >
+                                                <option>Seleccione...</option>
+                                            </select>
+                                        <!--{ {Form::select('cod_modalidad', $modalidades, $lista_mod,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'cod_modalidad'])}} -->
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -218,6 +206,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="wizard-footer">
@@ -249,7 +238,7 @@
 <script src="{{asset('plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
 
 <script src="{{asset('plugins/select2/js/select2.min.js')}}" type="text/javascript"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
+<script src="{{asset('http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js')}}"></script>
 
 <!--  Plugin for the Wizard -->
 <script src="{{asset('wizard/js/gsdk-bootstrap-wizard.js')}}"></script>
@@ -300,6 +289,50 @@
             });
         });
     });
+    setTimeout(getMultiple, '300');
+    setTimeout(getModalidades, '300');
+    $("#cod_tipo_licencia").change(function () {
+        getMultiple();
+        getModalidades();
+    });
+    function getModalidades() {
+        var tipo = $("#cod_tipo_licencia").val();
+        var lista = <?php echo json_encode($lista_mod);?>;
+        $.get('{{route('modalidades')}}', {data: tipo}, function (result) {
+            $('#select_modalidad').html("");
+            var entro=0;
+            $.each(result, function (i, value) {
+                entro=0;
+                if(lista.includes(value.cod_modalidad) ){
+                    entro=1;
+                }
+                if(entro == 1)
+                {
+                    $('#select_modalidad').append('<option selected="selected" value="'+value.cod_modalidad+'" >'+value.des_modalidad+'</option>');
+                }
+                else
+                {
+                    $('#select_modalidad').append('<option value="'+value.cod_modalidad+'" >'+value.des_modalidad+'</option>');
+                }
+            });
+        });
+    }
+    function getMultiple() {
+        //consultar si admite multiples
+        var tipo = $("#cod_tipo_licencia").val();
+        $.get('{{route('multiples')}}', {data: tipo}, function (result) {
+            if (result.esmultiple == "1")
+            {
+                document.getElementById("select_modalidad").multiple = true;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad[]');
+            }
+            else {
+                document.getElementById("select_modalidad").multiple = false;
+                document.getElementById("select_modalidad").setAttribute('name', 'select_modalidad');
+            }
+        })
+
+    }
 
 </script>
 

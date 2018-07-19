@@ -27,15 +27,22 @@
                         <li>Registrar una licencia de construcción</li>
                         <li>Consultar y editar la información de una licencia de construcción</li>
                         <li>Crear, consultar y editar Usuarios del aplicativo</li>
+                        <li>Consultar y responder Denuncias</li>
                     </ul><br>
                     * <b>Funcionario</b><br>
                     <ul>
                         <li>Registrar una licencia de construcción</li>
                         <li>Consultar y editar la información de una licencia de construcción</li>
+                        <li>Consultar y responder Denuncias</li>
                     </ul><br>
                     * <b>Consultas</b><br>
                     <ul>
                         <li>Consultar la información de una licencia de construcción</li>
+                    </ul><br>
+                    * <b>Denuncias</b><br>
+                    <ul>
+                        <li>Consultar la información de una licencia de construcción</li>
+                        <li>Consultar y responder Denuncias</li>
                     </ul>
                 </div>
             </div> <!-- end row -->
