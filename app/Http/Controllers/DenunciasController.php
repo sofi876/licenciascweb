@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\EstadosDenuncia;
+use App\Mail\NotificarDenuncia;
+use App\User;
 use Illuminate\Http\Request;
 use App\Denuncias;
 use App\LicenciaConstruccion;
@@ -10,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\NotificacionDenuncia;
 
 class DenunciasController extends Controller
 {
@@ -113,9 +117,23 @@ class DenunciasController extends Controller
             $denuncia->fecha = Carbon::now();
             $denuncia->save();
 
+            //Enviar Email
+            $receivers = User::where('notificar_denuncia','1')->get();//pluck('email')->
+            foreach ($receivers as $destino)
+            {
+                Mail::to($destino->email)->send(new NotificarDenuncia($denuncia));
+                $notificaciond = new NotificacionDenuncia();
+                $notificaciond->enviado = "1";
+                $notificaciond->cod_denuncia = $denuncia->cod_denuncia;
+                $notificaciond->cod_usuario = $destino->id;
+                $notificaciond->fecha = Carbon::now();
+                $notificaciond->save();
+            }
+
             \DB::commit();
             $result['estado'] = true;
             $result['mensaje'] = 'La denuncia ha sido registrada satisfactoriamente';
+
         } catch (\Exception $exception) {
             $result['estado'] = false;
             $result['mensaje'] = 'No fue posible registrar la denuncia ' . $exception->getMessage();//. $exception->getMessage()

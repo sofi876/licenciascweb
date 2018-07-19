@@ -17,6 +17,7 @@ use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Excel;
 use App\DetalleModalidad;
 use App\TipoLicencia;
+
 //use PHPExcel_Worksheet_Drawing;
 
 class LicenciasController extends Controller
