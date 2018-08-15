@@ -59,44 +59,57 @@
                                         </div>-->
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Número de licencia:</label>
-                                            <div class="col-sm-7">
-                                            {{Form::text('num_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'num_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
+                                                <div class="col-sm-1">
+                                                    {{Form::text('num_licencia1', '50001' ,['class'=>'form-control obtener', "required", "readonly","tabindex"=>"1",'id'=>'num_licencia1'])}}
+                                                    <!-- <input type="text" id="numero1" name="numero1" tabindex="3" class="form-control obtener"  data-parsley-type="alphanum" maxlength="5" required>-->
+                                                </div>
+                                                <label class="col-sm-1 control-label">-</label>
+                                            <div class="col-sm-1">
+                                            {{Form::text('num_licencia2', null ,['class'=>'form-control obtener', "required", "tabindex"=>"2",'id'=>'num_licencia2', 'maxlength' => 1, "data-parsley-type"=>"number"])}}
+                                            </div>
+                                            <label class="col-sm-1">-</label>
+                                            <div class="col-sm-1">
+                                             {{Form::text('num_licencia3', null ,['class'=>'form-control obtener', "required", "tabindex"=>"3",'id'=>'num_licencia3','maxlength' => 2, "data-parsley-type"=>"number"])}}
+                                            </div>
+                                            <label class="col-sm-1">-</label>
+                                            <div class="col-sm-1">
+                                               {{Form::text('num_licencia4', null ,['class'=>'form-control obtener', "required", "tabindex"=>"4",'id'=>'num_licencia4', 'maxlength' => 4, "data-parsley-type"=>"number"])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de radicación</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'fradicacion'])}}
+                                                {{Form::date('fradicacion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fradicacion'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de de expedición</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'fexpedicion'])}}
+                                                {{Form::date('fexpedicion', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'fexpedicion'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de ejecutoria</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'fejecutoria'])}}
+                                                {{Form::date('fejecutoria', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'fejecutoria'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Fecha de vencimiento</label>
                                             <div class="col-sm-7">
-                                                {{Form::date('fvence', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fvence'])}}
+                                                {{Form::date('fvence', \Carbon\Carbon::now(),['class'=>'form-control', "required", "tabindex"=>"8",'id'=>'fvence'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Estado</label>
                                             <div class="col-sm-7">
-                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cod_estado'])}}
+                                                {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"9",'id'=>'cod_estado'])}}
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label">Antecedentes</label>
                                             <div class="col-sm-7">
-                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                                {{Form::text('antecedentes', null ,['class'=>'form-control', "tabindex"=>"10",'id'=>'antecedentes'])}}
                                             </div>
                                         </div>
                                     </div>

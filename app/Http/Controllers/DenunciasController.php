@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\NotificacionDenuncia;
+use Maatwebsite\Excel\Excel;
 
 class DenunciasController extends Controller
 {
@@ -64,8 +65,8 @@ class DenunciasController extends Controller
             $denuncia->nueva = "0";
             $denuncia->save();
         }
-
-        $num_licencia="";
+        //$num_licencia="< Sin licencia asociada >";
+        $num_licencia="N/A";
         if($denuncia->cod_licencia != "") {
             $licencia = LicenciaConstruccion::where('cod_licencia', $denuncia->cod_licencia)->first();
             $num_licencia = $licencia->num_licencia;
@@ -94,8 +95,7 @@ class DenunciasController extends Controller
     public function wsCrearDenuncia(Request $request)
     {
         $result = [];
-
-       //  \DB::beginTransaction();
+         \DB::beginTransaction();
         try {
             $validator = \Validator::make($request->all(), [
                 'imagen' => 'required',
@@ -129,7 +129,6 @@ class DenunciasController extends Controller
                 $notificaciond->fecha = Carbon::now();
                 $notificaciond->save();
             }
-
             \DB::commit();
             $result['estado'] = true;
             $result['mensaje'] = 'La denuncia ha sido registrada satisfactoriamente';
@@ -138,10 +137,63 @@ class DenunciasController extends Controller
             $result['estado'] = false;
             $result['mensaje'] = 'No fue posible registrar la denuncia ' . $exception->getMessage();//. $exception->getMessage()
             \DB::rollBack();
-
         }
         return ['resultado' => $result];
-        //return $result;
+    }
+    public function generarReporteExcel(Request $request)
+    {
+        $fecha1=$request->fecha1;
+        $fecha2=$request->fecha2;
+        $denuncias = Denuncias::join('estado_denuncia','denuncias.cod_estado_denuncia','estado_denuncia.cod_estado_denuncia')
+            ->leftJoin('licencia_construccion','denuncias.cod_licencia','licencia_construccion.cod_licencia')
+            ->whereBetween('denuncias.fecha', [$fecha1, $fecha2])
+            ->select(['denuncias.fecha','denuncias.cod_licencia','denuncias.des_denuncia','denuncias.cod_estado_denuncia','denuncias.observacion', 'estado_denuncia.des_estado_denuncia','licencia_construccion.num_licencia'])
+            ->orderby('denuncias.fecha', 'desc')
+            ->get();
 
+        \Excel::create('ExcelDenuncias', function ($excel) use ($request, $denuncias) {
+            if (sizeof($denuncias) > 0) {
+                $excel->sheet('Reporte', function ($sheet) use ($denuncias) {
+                    $hoy = Carbon::now();
+                    $sheet->setWidth(array(
+                        'A' => 15,
+                        'B' => 12,
+                        'C' => 55,
+                        'D' => 25,
+                        'E' => 30,
+                    ));
+                    $sheet->row(2, array('REPORTE DE DENUNCIAS SOBRE LICENCIAS DE CONSTRUCCIÓN'));
+                    $sheet->row(2, function ($row) {
+                        $row->setBackground('#4CAF50');
+                    });
+                    $sheet->row(3, array('Fecha:', $hoy));
+                    $sheet->row(3, function ($row) {
+                        $row->setBackground('#4CAF50');
+                    });
+                    $filainicial=5;
+                    $fila = $filainicial;
+                    $cant = 0;
+                    $sheet->row(($fila), function ($row) {
+                        $row->setBackground('#06AEF1');
+                    });
+
+                   $sheet->row($fila, array('Fecha','Estado','Descripción', 'Número de licencia asociada', 'Observaciones'));
+                    $sheet->row($fila, function ($row) {
+                        $row->setBackground('#f2f2f2');
+                    });
+                    $fila++;
+                    foreach ($denuncias as $denuncia) {
+                        $cant++;
+                        $numero="N/A";
+                        if($denuncia->num_licencia!="")
+                            $numero=$denuncia->num_licencia;
+                        $sheet->row($fila, array($denuncia->fecha,$denuncia->des_estado_denuncia,$denuncia->des_denuncia, $numero, $denuncia->observacion));
+                        $fila++;
+                    } //finaliza foreach
+                    $filafinal = $fila - 1;
+                    $sheet->setBorder('A'.$filainicial.':E'.$filafinal, 'thin');
+                });        //CIERRA PESTAÑA
+            } //finaliza if
+        })->export('xls');
     }
 }

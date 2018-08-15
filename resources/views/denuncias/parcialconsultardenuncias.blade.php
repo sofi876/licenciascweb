@@ -1,5 +1,23 @@
 <div class="row">
     <div class="col-sm-12">
+        <h5>Exportar</h5>
+        <div class="card-box widget-inline">
+            <div class="row">
+                <div class="widget-inline-box text-right">
+                    <strong>Exportar: </strong>
+                    <div class="btn-group">
+                        <a href="{{route('excelDenuncias',['fecha1'=>$fecha1, 'fecha2'=>$fecha2])}}"
+                           class="btn btn-sm btn-custom" data-toggle="tooltip" title="EXCEL">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
         <p><b>Nota:</b> Utilice la celda inferior de la columna para filtrar los resultados.</p>
     </div>
 </div>
