@@ -73,6 +73,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('denuncias/ver/{id}', 'DenunciasController@viewEditarDenuncia')->name('editarDenuncia');
     Route::post('denuncias/editar/{id}', 'DenunciasController@funcionEditarDenuncia')->name('funcionEditarDenuncia');
+
+    Route::get('Denuncias/reporte/exportarexcel','DenunciasController@generarReporteExcel')->name('excelDenuncias');
     /*FINALIZA DENUNCIAS*/
     /* INICIA  TRAZABILIDAD LICENCIA */
     Route::get('Licencias/trazabilidad/{id}', 'LicenciasController@viewHistorial')->name('consultarHistorial');

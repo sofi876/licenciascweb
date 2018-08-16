@@ -57,7 +57,7 @@ class LicenciasController extends Controller
             $next = (LicenciaConstruccion::max('cod_licencia'))+1;
             $licencia = new LicenciaConstruccion();
             $licencia->cod_licencia = $next;
-            $licencia->num_licencia = $request->num_licencia;
+            $licencia->num_licencia = $request->num_licencia1."-".$request->num_licencia2."-".$request->num_licencia3."-".$request->num_licencia4;
             $licencia->fecha_radicacion = $request->fradicacion;
             $licencia->fecha_expedicion = $request->fexpedicion;
             $licencia->fecha_ejecutoria = $request->fejecutoria;
@@ -334,7 +334,8 @@ class LicenciasController extends Controller
                 'num_licencia' => 'required|unique:licencia_construccion|max:11',
             ]);
             $licencia = LicenciaConstruccion::where('cod_licencia',$id)->first();
-            $licencia->num_licencia = $request->num_licencia;
+            //$licencia->num_licencia = $request->num_licencia;
+            $licencia->num_licencia = $request->num_licencia1."-".$request->num_licencia2."-".$request->num_licencia3."-".$request->num_licencia4;
             $licencia->fecha_radicacion = $request->fecha_radicacion;
             $licencia->fecha_expedicion = $request->fecha_expedicion;
             $licencia->fecha_ejecutoria = $request->fecha_ejecutoria;
@@ -442,7 +443,6 @@ class LicenciasController extends Controller
             ->orderby('licencia_construccion.num_licencia', 'asc')
             ->get();
 
-        //$licencias_datos = [];
         $licencias_datos=array();
         foreach ($licencias as $licencia) {
             $cod_licencia=$licencia->cod_licencia;
@@ -487,24 +487,10 @@ class LicenciasController extends Controller
                 'cant_predio' => $cant_predio);
         } //finaliza foreach
 
-        /*'barrio' => $licencia->barrio,
-        'manzana' => $licencia->manzana,
-        'lote' => $licencia->lote,
-        'estrato' => $licencia->estrato,
-        'cedula_catastral' => $licencia->cedula_catastral,*/
-        //dd($licencias_datos);
-        //consultar todos los predios, con cod_licencia asociados a la lista_licencias
-
         \Excel::create('ExcelLicencias', function ($excel) use ($request, $licencias, $licencias_datos) {
             if (sizeof($licencias) > 0) {
                 $excel->sheet('Reporte', function ($sheet) use ($licencias, $licencias_datos) {
                     $hoy = Carbon::now();
-                    /*$objDrawing = new PHPExcel_Worksheet_Drawing;
-                    $objDrawing->setPath(public_path('images/logo.png')); //your image path
-                    $objDrawing->setHeight(50);
-                    $objDrawing->setCoordinates('A1');
-                    $objDrawing->setWorksheet($sheet);
-                    $objDrawing->setOffsetY(10);*/
                     $sheet->setWidth(array(
                         'A' => 18,
                         'B' => 18,
@@ -529,9 +515,6 @@ class LicenciasController extends Controller
                     $sheet->row(2, function ($row) {
                         $row->setBackground('#4CAF50');
                     });
-                    /*$sheet->cells('A1:A4', function ($cells) {
-                        $cells->setBackground('#FFFFFF');
-                    });*/
                     $sheet->row(3, array('Fecha:', $hoy));
                     $sheet->row(3, function ($row) {
                         $row->setBackground('#4CAF50');
@@ -542,13 +525,10 @@ class LicenciasController extends Controller
                     $sheet->row(($fila), function ($row) {
                         $row->setBackground('#06AEF1');
                     });
-
                     $sheet->row(($fila), array('DATOS DE LA LICENCIA','','', '', '', '', '', 'SOLICITANTE', '', '', '', 'CARACTERÍSTICAS', '', '', '', '', '', 'PREDIO'));
                     $sheet->mergeCells('A'.($fila).':G'.($fila));
                     $sheet->mergeCells('H'.($fila).':K'.($fila));
                     $sheet->mergeCells('L'.($fila).':Q'.($fila));
-                    //$sheet->mergeCells('R'.($fila).':W'.($fila));
-                    //$sheet->getStyle("A".($fila).":Z".($fila))->getAlignment()->applyFromArray(array('horizontal' => 'center'));
                     $fila++;
                     $sheet->row($fila, array('Número de Licencia','Fecha de radicación','Fecha de expedición', 'Fecha de ejecutoría', 'Fecha de vencimiento', 'Estado', 'Antecedentes', 'Documento', 'Nombres', 'Apellidos', 'Tipo de persona', 'Descripción del proyecto', 'Tipo de Licencia', 'Modalidad(es)', 'Objeto', 'Tipo de uso', 'Número de pisos', 'Direccion(es)'));
                     $sheet->row($fila, function ($row) {
@@ -566,14 +546,10 @@ class LicenciasController extends Controller
                     } //finaliza foreach
                     $filafinal = $fila - 1;
                     $sheet->setBorder('A'.$filainicial.':R'.$filafinal, 'thin');
-
                     //$sheet->setValignment('center');
-
-
                 });        //CIERRA PESTAÑA
             } //finaliza if
         })->export('xls');
-
     }
     public function viewHistorial($id)
     {

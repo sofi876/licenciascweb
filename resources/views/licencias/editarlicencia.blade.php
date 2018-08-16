@@ -59,46 +59,71 @@
                                     <!-- <div class="col-sm-12">
                                          <h4 class="info-text"></h4>
                                      </div>-->
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label class="col-sm-3 control-label">Número de licencia:</label>
                                         <div class="col-sm-7">
-                                        {{Form::text('num_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'num_licencia'])}} <!-- "data-parsley-type"=>"number"] -->
+                                        { {Form::text('num_licencia', null ,['class'=>'form-control', "required", "tabindex"=>"1",'id'=>'num_licencia'])}}
+                                        </div>
+                                    </div> -->
+                                    <?php
+                                    $numeros = explode("-", $licencia->num_licencia);
+                                    $num_licencia1 = $numeros[0];
+                                    $num_licencia2 = $numeros[1];
+                                    $num_licencia3 = $numeros[2];
+                                    $num_licencia4 = $numeros[3];
+                                    ?>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Número de licencia:</label>
+                                        <div class="col-sm-1">
+                                        {{Form::text('num_licencia1', '50001',['class'=>'form-control obtener', "required", "readonly","tabindex"=>"1",'id'=>'num_licencia1'])}}
+                                        </div>
+                                        <label class="col-sm-1 control-label">-</label>
+                                        <div class="col-sm-1">
+                                            {{Form::text('num_licencia2', $num_licencia2 ,['class'=>'form-control obtener', "required", "tabindex"=>"2",'id'=>'num_licencia2', 'maxlength' => 1, "data-parsley-type"=>"number"])}}
+                                        </div>
+                                        <label class="col-sm-1">-</label>
+                                        <div class="col-sm-1">
+                                            {{Form::text('num_licencia3', $num_licencia3 ,['class'=>'form-control obtener', "required", "tabindex"=>"3",'id'=>'num_licencia3','maxlength' => 2, "data-parsley-type"=>"number"])}}
+                                        </div>
+                                        <label class="col-sm-1">-</label>
+                                        <div class="col-sm-1">
+                                            {{Form::text('num_licencia4', $num_licencia4 ,['class'=>'form-control obtener', "required", "tabindex"=>"4",'id'=>'num_licencia4', 'maxlength' => 4, "data-parsley-type"=>"number"])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Fecha de radicación</label>
                                         <div class="col-sm-7">
-                                            {{Form::date('fecha_radicacion', $licencia->fecha_radicacion,['class'=>'form-control', "required", "tabindex"=>"2",'id'=>'fecha_radicacion'])}}
+                                            {{Form::date('fecha_radicacion', $licencia->fecha_radicacion,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fecha_radicacion'])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Fecha de de expedición</label>
                                         <div class="col-sm-7">
-                                            {{Form::date('fecha_expedicion', $licencia->fecha_expedicion,['class'=>'form-control', "required", "tabindex"=>"3",'id'=>'fecha_expedicion'])}}
+                                            {{Form::date('fecha_expedicion', $licencia->fecha_expedicion,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'fecha_expedicion'])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Fecha de ejecutoria</label>
                                         <div class="col-sm-7">
-                                            {{Form::date('fecha_ejecutoria', $licencia->fecha_ejecutoria,['class'=>'form-control', "required", "tabindex"=>"4",'id'=>'fecha_ejecutoria'])}}
+                                            {{Form::date('fecha_ejecutoria', $licencia->fecha_ejecutoria,['class'=>'form-control', "required", "tabindex"=>"7",'id'=>'fecha_ejecutoria'])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Fecha de vencimiento</label>
                                         <div class="col-sm-7">
-                                            {{Form::date('fecha_vence', $licencia->fecha_vence,['class'=>'form-control', "required", "tabindex"=>"5",'id'=>'fecha_vence'])}}
+                                            {{Form::date('fecha_vence', $licencia->fecha_vence,['class'=>'form-control', "required", "tabindex"=>"8",'id'=>'fecha_vence'])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Estado</label>
                                         <div class="col-sm-7">
-                                            {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"6",'id'=>'cod_estado'])}}
+                                            {{Form::select('cod_estado', $estados,null,['class'=>'form-control', "required", "tabindex"=>"9",'id'=>'cod_estado'])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">Antecedentes</label>
                                         <div class="col-sm-7">
-                                            {{Form::text('antecedentes', null ,['class'=>'form-control', "tabindex"=>"7",'id'=>'antecedentes'])}}
+                                            {{Form::text('antecedentes', null ,['class'=>'form-control', "tabindex"=>"10",'id'=>'antecedentes'])}}
                                         </div>
                                     </div>
                                 </div>
