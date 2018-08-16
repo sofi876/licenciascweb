@@ -98,11 +98,11 @@ class DenunciasController extends Controller
          \DB::beginTransaction();
         try {
             $validator = \Validator::make($request->all(), [
-                'imagen' => 'required',
-                'georeferencia' => 'required',
-                'des_denuncia' => 'required',
+               'des_denuncia' => 'required',
             ]);
-
+            /* 'imagen' => 'required',
+                'georeferencia' => 'required',
+                */
             $denuncia = new Denuncias();
 
             $licencia = LicenciaConstruccion::where('num_licencia',$request->num_licencia)->first();
